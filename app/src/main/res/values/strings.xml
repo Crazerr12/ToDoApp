@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ToDoApp</string>
+    <string name="welcome">Welcome back!</string>
+    <string name="email">Enter your email</string>
+    <string name="password">Confirm password</string>
+    <string name="signIn">Sign In</string>
+    <string name="forgot">Forgot password</string>
+    <string name="dontHave">Don\'t have an account?</string>
+    <string name="signUp">Sign Up</string>
 </resources>
