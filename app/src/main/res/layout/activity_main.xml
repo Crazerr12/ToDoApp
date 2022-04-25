@@ -14,14 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageIcons"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icons"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textWelcomeBack"
         android:layout_width="match_parent"
