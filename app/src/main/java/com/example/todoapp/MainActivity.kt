@@ -13,13 +13,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         val validator = Validator()
+        val toast1 = toastShow()
 
         binding.buttonSignIn.setOnClickListener{
-
-            val toastMessage = "Success!"
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(applicationContext, toastMessage, duration)
 
             binding.inputLayoutEmail.error =
             validator.emailValid(binding.editTextEmail.text)
@@ -27,11 +23,11 @@ class MainActivity : AppCompatActivity() {
             validator.passwordValid(binding.editTextPassword.text)
 
             if (binding.inputLayoutEmail.error == null && binding.inputLayoutPassword.error == null)
-                toast.show()
-            else null
-
+                toast1
         }
-
         setContentView(binding.root)
     }
+    fun toastShow() =
+        Toast.makeText(applicationContext, getString(R.string.success), Toast.LENGTH_SHORT).show()
+
 }

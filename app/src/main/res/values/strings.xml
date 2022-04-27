@@ -7,4 +7,5 @@
     <string name="forgot">Forgot password</string>
     <string name="dontHave">Don\'t have an account</string>
     <string name="signUp">Sign Up</string>
+    <string name="success">Success!</string>
 </resources>
