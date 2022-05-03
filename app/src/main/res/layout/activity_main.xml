@@ -22,7 +22,7 @@
         android:layout_marginTop="190dp"
         android:layout_marginBottom="529dp"
         android:gravity="center"
-        android:text="@string/join"
+        android:text="@string/join" 
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
