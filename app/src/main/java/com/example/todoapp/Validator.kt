@@ -10,6 +10,10 @@ class Validator {
         else "not enough symbols"
 
     fun passwordValid(text: Editable?) =
-        if ( text?.isEmpty() == false && text.length!! > 8 ) null
+        if ( text?.isEmpty() == false && text.length!! > 8) null
+        else "not enough symbols"
+
+    fun nameValid(text: Editable?) =
+        if ( text?.isEmpty() == false) null
         else "not enough symbols"
 }

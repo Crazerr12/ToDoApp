@@ -2,10 +2,19 @@
     <string name="app_name">ToDoApp</string>
     <string name="join">Welcome back!</string>
     <string name="email">Enter your email</string>
-    <string name="password">Confirm password</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="signIn">Sign In</string>
     <string name="forgot">Forgot password</string>
     <string name="dontHave">Don\'t have an account</string>
     <string name="signUp">Sign Up</string>
     <string name="success">Success!</string>
+    <string name="let_s_get_things_done_on_time">Let’s get things done on time</string>
+    <string name="lorem_ipsum_dolor">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus praesent purus tincidunt ut cursus vitae. Nisl, vitae nulla lectus tortor, est a aliquam. Pretium netus</string>
+    <string name="get_started">Get Started</string>
+    <string name="welcome_onboard">Welcome Onboard!</string>
+    <string name="enter_full_name">Enter your full name</string>
+    <string name="we_help">We help you meet up you tasks on time.</string>
+    <string name="enter_password">Enter password</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
 </resources>
