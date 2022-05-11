@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.todoapp.databinding.ActivityLoginBinding
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -15,28 +15,29 @@ class Login : AppCompatActivity() {
 
         val validator = Validator()
 
-        binding.buttonSignIn.setOnClickListener{
+        binding.buttonSignIn.setOnClickListener {
 
             binding.inputLayoutEmail.error =
-            validator.emailValid(binding.editTextEmail.text)
+                validator.emailValid(binding.editTextEmail.text)
             binding.inputLayoutConfirmPassword.error =
-            validator.passwordValid(binding.editTextConfirmPassword.text)
+                validator.passwordValid(binding.editTextConfirmPassword.text)
 
             if (binding.inputLayoutEmail.error == null && binding.inputLayoutConfirmPassword.error == null) {
                 toastShow(string = getString(R.string.success))
-                val intent = Intent (this, Profile::class.java)
+                val intent = Intent(this, ProfileActivity::class.java)
                 intent.putExtra("email", binding.editTextEmail.text.toString())
                 startActivity(intent)
             }
         }
 
-        binding.textSignUp.setOnClickListener{
-            val intent1 = Intent(this, Register::class.java)
+        binding.textSignUp.setOnClickListener {
+            val intent1 = Intent(this, RegisterActivity::class.java)
             startActivity(intent1)
         }
 
         setContentView(binding.root)
     }
+
     fun toastShow(string: String) =
         Toast.makeText(applicationContext, string, Toast.LENGTH_SHORT).show()
 

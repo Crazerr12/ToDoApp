@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.todoapp.databinding.ActivityRegisterBinding
 
-class Register : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -13,7 +13,7 @@ class Register : AppCompatActivity() {
 
         val validator = Validator()
 
-        binding.buttonRegister.setOnClickListener{
+        binding.buttonRegister.setOnClickListener {
             binding.inputLayoutFullName.error =
                 validator.nameValid(binding.editTextFullName.text)
             binding.inputLayoutEmail.error =
@@ -22,24 +22,29 @@ class Register : AppCompatActivity() {
                 validator.passwordValid(binding.editTextEnterPassword.text)
             binding.inputLayoutConfirmPassword.error =
                 validator.passwordValid(binding.editTextConfirmPassword.text)
-
-            if(binding.editTextEnterPassword.text.toString().equals(binding.editTextConfirmPassword.text.toString())) null
-            else {
-                binding.inputLayoutEnterPassword.error = "password not to match"
-                binding.inputLayoutConfirmPassword.error = "password not to match"
-            }
+            binding.inputLayoutEnterPassword.error =
+                validator.checkPassword(
+                    binding.editTextEnterPassword.text,
+                    binding.editTextConfirmPassword.text
+                )
+            binding.inputLayoutConfirmPassword.error =
+                validator.checkPassword(
+                    binding.editTextConfirmPassword.text,
+                    binding.editTextEnterPassword.text
+                )
 
             if (binding.inputLayoutFullName.error == null && binding.inputLayoutEmail.error == null &&
-                binding.inputLayoutEnterPassword.error == null && binding.inputLayoutConfirmPassword.error == null){
-                    val intent = Intent(this, Profile::class.java)
+                binding.inputLayoutEnterPassword.error == null && binding.inputLayoutConfirmPassword.error == null
+            ) {
+                val intent = Intent(this, ProfileActivity::class.java)
                 intent.putExtra("email", binding.editTextEmail.text.toString())
                 startActivity(intent)
             }
         }
 
-        binding.textSignIn.setOnClickListener{
-            val intent1 = Intent(this, Login::class.java)
-            startActivity(intent1)
+        binding.textSignIn.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
         setContentView(binding.root)
     }
