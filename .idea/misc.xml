@@ -2,9 +2,12 @@
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
-      <map> 
+      <map>
         <entry key="..\:/Development/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.33" /> 
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_get_started.xml" value="0.36666666666666664" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_profile.xml" value="0.25" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

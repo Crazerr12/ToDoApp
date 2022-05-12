@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/imageCircles"
@@ -16,6 +16,7 @@
 
     <TextView
         android:id="@+id/textWelcomeBack"
+        android:fontFamily="@font/poppins"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="117dp"
@@ -57,6 +58,7 @@
         app:boxCornerRadiusBottomEnd="30dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:fontFamily="@font/poppins"
             android:id="@+id/editTextEmail"
             android:hint="@string/email"
             android:paddingStart="30dp"
@@ -66,7 +68,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayoutPassword"
+        android:id="@+id/inputLayoutConfirmPassword"
         android:textColorHint="@color/black"
         android:layout_marginTop="20dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -82,9 +84,10 @@
         app:boxCornerRadiusBottomEnd="30dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPassword"
+            android:fontFamily="@font/poppins"
+            android:id="@+id/editTextConfirmPassword"
             android:paddingStart="30dp"
-            android:hint="@string/password"
+            android:hint="@string/confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"/>
@@ -92,23 +95,25 @@
 
     <TextView
         android:id="@+id/textForgotPassword"
+        android:fontFamily="@font/poppins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/forgot"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@color/yellow"
-        app:layout_constraintEnd_toEndOf="@+id/inputLayoutPassword"
-        app:layout_constraintStart_toStartOf="@+id/inputLayoutPassword"
-        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/inputLayoutConfirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/inputLayoutConfirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutConfirmPassword" />
 
     <com.google.android.material.button.MaterialButton
+        android:fontFamily="@font/poppins_black"
         android:id="@+id/buttonSignIn"
         android:textColor="@color/black"
         android:backgroundTint="@color/yellow"
         android:textAllCaps="false"
         android:text="@string/signIn"
-        android:paddingVertical="21dp"
+        android:paddingVertical="16dp"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
         android:textSize="20sp"
@@ -120,9 +125,10 @@
         app:cornerRadius="10dp"/>
 
     <TextView
+        android:fontFamily="@font/poppins"
         android:id="@+id/textDontHave"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:text="@string/dontHave"
         android:layout_margin="10dp"
         android:layout_width="wrap_content"
@@ -132,12 +138,15 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonSignIn" />
 
     <TextView
+        android:id="@+id/textSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:fontFamily="@font/poppins"
         android:text="@string/signUp"
         android:textColor="@color/yellow"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/buttonSignIn"
-        app:layout_constraintStart_toStartOf="@+id/buttonSignIn"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/textDontHave"
+        app:layout_constraintStart_toStartOf="@+id/textDontHave"
         app:layout_constraintTop_toBottomOf="@+id/textDontHave" />
 </androidx.constraintlayout.widget.ConstraintLayout>
