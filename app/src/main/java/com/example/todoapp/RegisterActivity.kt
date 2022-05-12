@@ -19,10 +19,6 @@ class RegisterActivity : AppCompatActivity() {
             binding.inputLayoutEmail.error =
                 validator.emailValid(binding.editTextEmail.text)
             binding.inputLayoutEnterPassword.error =
-                validator.passwordValid(binding.editTextEnterPassword.text)
-            binding.inputLayoutConfirmPassword.error =
-                validator.passwordValid(binding.editTextConfirmPassword.text)
-            binding.inputLayoutEnterPassword.error =
                 validator.checkPassword(
                     binding.editTextEnterPassword.text,
                     binding.editTextConfirmPassword.text

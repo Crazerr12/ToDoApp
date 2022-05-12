@@ -15,7 +15,8 @@ class Validator {
         if (text?.isEmpty() == false) null
         else "not enough symbols"
 
-    fun checkPassword(textEnter: Editable?, textConfirm: Editable?) =
-        if (textEnter.toString().equals(textConfirm.toString())) null
-        else "password not to match"
+    fun checkPassword(text1: Editable?, text2: Editable?) =
+        if (text1.toString() == text2.toString()) {
+            passwordValid(text1)
+        } else "password not to match"
 }
