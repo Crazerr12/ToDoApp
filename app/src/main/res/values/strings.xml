@@ -17,4 +17,7 @@
     <string name="enter_password">Enter password</string>
     <string name="register">Register</string>
     <string name="already_have_an_account">Already have an account?</string>
+    <string name="profile">Profile</string>
+    <string name="tasks">Tasks</string>
+    <string name="tasksList">TasksList</string>
 </resources>
