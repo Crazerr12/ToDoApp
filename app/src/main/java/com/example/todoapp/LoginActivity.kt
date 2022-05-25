@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
             if (binding.inputLayoutEmail.error == null && binding.inputLayoutConfirmPassword.error == null) {
                 toastShow(string = getString(R.string.success))
-                val intent = Intent(this, ProfileFragment::class.java)
+                val intent = Intent(this, ProfileActivity::class.java)
                 intent.putExtra("email", binding.editTextEmail.text.toString())
                 startActivity(intent)
             }

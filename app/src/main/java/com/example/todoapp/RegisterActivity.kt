@@ -32,7 +32,7 @@ class RegisterActivity : AppCompatActivity() {
             if (binding.inputLayoutFullName.error == null && binding.inputLayoutEmail.error == null &&
                 binding.inputLayoutEnterPassword.error == null && binding.inputLayoutConfirmPassword.error == null
             ) {
-                val intent = Intent(this, ProfileFragment::class.java)
+                val intent = Intent(this, ProfileActivity::class.java)
                 intent.putExtra("email", binding.editTextEmail.text.toString())
                 startActivity(intent)
             }
