@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.todoapp.databinding.FragmentTasksBinding
 
-class TasksFragment(private var email: String?) : Fragment() {
+class TasksFragment : Fragment() {
     lateinit var binding: FragmentTasksBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,15 +17,6 @@ class TasksFragment(private var email: String?) : Fragment() {
     ): View {
         binding = FragmentTasksBinding.inflate(inflater, container, false)
 
-        binding.textWelcomeBack.text = "Welcome $email"
-
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.imageLoginOut.setOnClickListener{
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

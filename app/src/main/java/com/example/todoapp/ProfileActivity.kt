@@ -11,13 +11,6 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
 
-        val email = intent.getStringExtra("email")
-
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, ProfileFragment(email))
-                .commit()
-
         setContentView(binding.root)
 
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -25,14 +18,14 @@ class ProfileActivity : AppCompatActivity() {
                 R.id.menuFragmentProfile -> {
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragmentContainer, ProfileFragment(email))
+                        .replace(R.id.fragmentContainer, ProfileFragment())
                         .commit()
                     true
                 }
                 R.id.menuFragmentTasks -> {
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragmentContainer, TasksFragment(email))
+                        .replace(R.id.fragmentContainer, TasksFragment())
                         .commit()
                     true
                 }
