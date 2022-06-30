@@ -20,4 +20,7 @@
     <string name="profile">Profile</string>
     <string name="tasks">Tasks</string>
     <string name="tasksList">TasksList</string>
+    <string name="Work">Work</string>
+    <string name="Entertainments">Entertainments</string>
+    <string name="Study">Study</string>
 </resources>

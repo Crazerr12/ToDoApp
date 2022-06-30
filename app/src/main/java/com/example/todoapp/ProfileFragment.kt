@@ -18,7 +18,7 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         val email = requireActivity().intent.getStringExtra("email")
-        binding.textWelcomeBack.text = "Welcome $email"
+        binding.collapsingToolbar.title = "Welcome $email"
 
         return binding.root
     }

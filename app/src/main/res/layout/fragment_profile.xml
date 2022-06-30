@@ -1,63 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <ImageView
-        android:id="@+id/imageYellowRectangle"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="274dp"
-        android:src="@drawable/yellow_rectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="300dp">
 
-    <ImageView
-        android:id="@+id/imageWhiteCircles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/white_circles"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/white"
+            app:title="@string/join">
 
-    <ImageView
-        android:clickable="true"
-        android:id="@+id/imageLoginOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/log_out"
-        android:layout_marginStart="340dp"
-        android:layout_marginBottom="150dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageYellowRectangle"
-        app:layout_constraintEnd_toEndOf="@+id/imageYellowRectangle"
-        app:layout_constraintStart_toStartOf="@+id/imageYellowRectangle"
-        app:layout_constraintTop_toTopOf="@+id/imageYellowRectangle" />
+            <ImageView
+                android:id="@+id/imageYellowRectangle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/yellow_rectangle"
+                android:scaleType="centerCrop"/>
 
-    <ImageView
-        android:id="@+id/imageUserPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/user_photo"
-        app:layout_constraintBottom_toBottomOf="@+id/imageYellowRectangle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageYellowRectangle"
-        app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/imageWhiteCircles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/white_circles" />
 
-    <TextView
-        android:id="@+id/textWelcomeBack"
-        android:fontFamily="@font/poppins"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="120dp"
+            <ImageView
+                android:clickable="true"
+                android:id="@+id/imageLoginOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/log_out"
+                android:layout_marginTop="70dp"
+                android:layout_marginStart="340dp"
+                android:layout_marginBottom="150dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageYellowRectangle"
+                app:layout_constraintEnd_toEndOf="@+id/imageYellowRectangle"
+                app:layout_constraintStart_toStartOf="@+id/imageYellowRectangle"
+                app:layout_constraintTop_toTopOf="@+id/imageYellowRectangle" />
+
+            <ImageView
+                android:id="@+id/imageUserPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/user_photo"
+                android:layout_gravity="center" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:layout_collapseMode="pin"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/join"
-        app:layout_constraintEnd_toEndOf="@+id/imageUserPhoto"
-        app:layout_constraintStart_toStartOf="@+id/imageUserPhoto"
-        app:layout_constraintTop_toBottomOf="@+id/imageUserPhoto" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
