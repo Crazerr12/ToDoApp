@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.todoapp.databinding.FragmentTasksBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
-class TasksFragment() : Fragment() {
+class TasksFragment : Fragment() {
     lateinit var binding: FragmentTasksBinding
     override fun onCreateView(
         inflater: LayoutInflater,

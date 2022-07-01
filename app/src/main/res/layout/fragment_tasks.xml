@@ -14,21 +14,5 @@
         android:id="@+id/viewPager2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayoutFragment" />
-
-    <TextView
-        android:id="@+id/textViewFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:gravity="center"
-        android:text="@string/tasksList"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_marginEnd="240dp"
-        android:layout_marginStart="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutFragment"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
