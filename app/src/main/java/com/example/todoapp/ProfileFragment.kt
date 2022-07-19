@@ -22,9 +22,10 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.imageLoginOut.setOnClickListener{
+        binding.imageLoginOut.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
         }

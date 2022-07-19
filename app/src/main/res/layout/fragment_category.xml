@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:layout_marginTop="20dp"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="600dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="200dp"
         android:fontFamily="@font/poppins"
-        android:gravity="left"
+        android:gravity="start"
         android:text="@string/tasksList"
         android:textColor="@color/black"
         android:textSize="20sp"

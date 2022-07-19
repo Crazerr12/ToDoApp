@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import com.example.todoapp.databinding.FragmentCategoryBinding
 
 
-class CategoryFragment(private val position :Int) : Fragment() {
+class CategoryFragment(private val position: Int) : Fragment() {
+
     lateinit var binding: FragmentCategoryBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,7 +24,6 @@ class CategoryFragment(private val position :Int) : Fragment() {
             0 -> binding.textView.text = getString(R.string.Work)
             1 -> binding.textView.text = getString(R.string.Entertainments)
             2 -> binding.textView.text = getString(R.string.Study)
-            else -> binding.textView.text = position.toString()
         }
         return binding.root
     }
