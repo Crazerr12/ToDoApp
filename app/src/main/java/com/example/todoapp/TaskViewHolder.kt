@@ -11,6 +11,6 @@ class TaskViewHolder(private val binding: ItemTaskBinding): RecyclerView.ViewHol
     @RequiresApi(Build.VERSION_CODES.O)
     fun bind(task: TaskModel) = with(binding) {
         textViewTaskDescription.text = task.description
-        textClockTimeDate.text = LocalDate.ofEpochDay(1658429902).toString()
+        textClockTimeDate.text = LocalDate.ofEpochDay(task.date).toString()
     }
 }

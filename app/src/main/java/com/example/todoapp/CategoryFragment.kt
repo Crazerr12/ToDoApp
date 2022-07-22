@@ -9,7 +9,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.todoapp.databinding.FragmentCategoryBinding
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 
 class CategoryFragment(private val position: Int) : Fragment() {
@@ -24,20 +23,19 @@ class CategoryFragment(private val position: Int) : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
-        binding.textView.text = position.toString()
 
         val tasks = listOf(
             TaskModel(
                 description = "Have Lunch by 2pm",
-                date_time = LocalDateTime.now().toEpochDay()
+                date = LocalDate.now().toEpochDay()
             ),
             TaskModel(
                 description = "Have Lunch by 24pm",
-                date_time = LocalDateTime.now().toEpochDay()
+                date = LocalDate.now().toEpochDay()
             ),
             TaskModel(
                 description = "Have Lunch by 23pm",
-                date_time = LocalDateTime.now().toEpochDay()
+                date = LocalDate.now().toEpochDay()
             )
         )
         val adapter = TasksAdapter()
@@ -48,7 +46,7 @@ class CategoryFragment(private val position: Int) : Fragment() {
             adapter.addItem(
                 TaskModel(
                     description = "Have Lunch by 2pm",
-                    date_time = LocalDateTime.now().toEpochDay()
+                    date = LocalDate.now().toEpochDay()
                 )
             )
         }
