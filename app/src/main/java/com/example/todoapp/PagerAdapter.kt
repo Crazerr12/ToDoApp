@@ -7,6 +7,6 @@ class PagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount() = 3
 
     override fun createFragment(position: Int): Fragment {
-        return CategoryFragment(position)
-    }
+             return CategoryFragment(position)
+        }
 }

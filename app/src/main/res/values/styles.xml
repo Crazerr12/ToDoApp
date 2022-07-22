@@ -4,4 +4,8 @@
     <style name="TabTextSize" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="CheckBoxStyle" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/yellow</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
 </resources>

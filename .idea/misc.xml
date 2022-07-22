@@ -9,9 +9,10 @@
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
-        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_category.xml" value="0.67" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_category.xml" value="0.25" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_profile.xml" value="0.36102564102564105" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_tasks.xml" value="0.33" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/item_task.xml" value="0.2935185185185185" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/text.xml" value="0.36666666666666664" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/menu/bottom_navigation.xml" value="0.36102564102564105" />
       </map>
