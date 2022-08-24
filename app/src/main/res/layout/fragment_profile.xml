@@ -8,14 +8,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="300dp"
+        >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@color/white"
             app:title="@string/join">
 
             <ImageView
@@ -32,20 +32,6 @@
                 android:src="@drawable/white_circles" />
 
             <ImageView
-                android:clickable="true"
-                android:id="@+id/imageLoginOut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/log_out"
-                android:layout_marginTop="70dp"
-                android:layout_marginStart="340dp"
-                android:layout_marginBottom="150dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageYellowRectangle"
-                app:layout_constraintEnd_toEndOf="@+id/imageYellowRectangle"
-                app:layout_constraintStart_toStartOf="@+id/imageYellowRectangle"
-                app:layout_constraintTop_toTopOf="@+id/imageYellowRectangle" />
-
-            <ImageView
                 android:id="@+id/imageUserPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,9 +39,11 @@
                 android:layout_gravity="center" />
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin"
+                app:menu="@menu/toolbar"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

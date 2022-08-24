@@ -23,4 +23,5 @@
     <string name="Work">Work</string>
     <string name="Entertainments">Entertainments</string>
     <string name="Study">Study</string>
+    <string name="exit">Exit</string>
 </resources>

@@ -2,9 +2,7 @@ package com.example.todoapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.todoapp.databinding.FragmentProfileBinding
 
@@ -25,9 +23,11 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.imageLoginOut.setOnClickListener {
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
+        binding.appBar.setOnMenuItemClickListener() {
+            when (it.itemId) {
+                R.id.exit -> startActivity(Intent(activity, LoginActivity::class.java))
+            }
+            true
         }
     }
 }
