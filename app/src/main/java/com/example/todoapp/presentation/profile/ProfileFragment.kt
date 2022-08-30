@@ -1,10 +1,12 @@
-package com.example.todoapp
+package com.example.todoapp.presentation.profile
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentProfileBinding
+import com.example.todoapp.presentation.login.LoginFragment
 
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
@@ -25,7 +27,7 @@ class ProfileFragment : Fragment() {
 
         binding.appBar.setOnMenuItemClickListener() {
             when (it.itemId) {
-                R.id.exit -> startActivity(Intent(activity, LoginActivity::class.java))
+                R.id.exit -> startActivity(Intent(activity, LoginFragment::class.java))
             }
             true
         }
