@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.tasks
+package com.example.todoapp.presentation.category
 
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.todoapp.databinding.FragmentCategoryBinding
+import com.example.todoapp.presentation.tasks.TaskModel
+import com.example.todoapp.presentation.tasks.TasksAdapter
 import java.time.LocalDate
 
 

@@ -18,5 +18,26 @@
         android:id="@+id/loginFragment"
         android:name="com.example.todoapp.presentation.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_switchFragment"
+            app:destination="@id/switchFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/switchFragment"
+        android:name="com.example.todoapp.presentation.profile.SwitchFragment"
+        android:label="fragment_profile_and_tasks_switch"
+        tools:layout="@layout/fragment_switch" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.todoapp.presentation.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_switchFragment"
+            app:destination="@id/switchFragment" />
+    </fragment>
 </navigation>

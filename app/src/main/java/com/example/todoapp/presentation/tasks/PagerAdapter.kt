@@ -2,7 +2,7 @@ package com.example.todoapp.presentation.tasks
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.todoapp.presentation.tasks.CategoryFragment
+import com.example.todoapp.presentation.category.CategoryFragment
 
 class PagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount() = 3

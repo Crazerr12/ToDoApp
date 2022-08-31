@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.others
+package com.example.todoapp.presentation.common
 
 import android.text.Editable
 
