@@ -1,10 +1,11 @@
-package com.example.todoapp
+package com.example.todoapp.presentation.tasks
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentTasksBinding
 import com.google.android.material.tabs.TabLayoutMediator
 

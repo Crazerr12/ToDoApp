@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".presentation.login.LoginFragment">
+
+<ImageView
+    android:id="@+id/imageCircles"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/circles"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<ImageView
+    android:id="@+id/imageManAndWoman"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="170dp"
+    android:src="@drawable/man_and_woman"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/textViewLetGet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="63dp"
+    android:layout_marginTop="30dp"
+    android:fontFamily="@font/poppins"
+    android:gravity="center"
+    android:text="@string/let_s_get_things_done_on_time"
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toEndOf="@+id/imageManAndWoman"
+    app:layout_constraintStart_toStartOf="@+id/imageManAndWoman"
+    app:layout_constraintTop_toBottomOf="@+id/imageManAndWoman" />
+
+<TextView
+    android:id="@+id/textViewLoremIpsum"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="73dp"
+    android:layout_marginTop="17dp"
+    android:fontFamily="@font/poppins"
+    android:gravity="center"
+    android:text="@string/lorem_ipsum_dolor"
+    android:textColor="@color/black"
+    app:layout_constraintEnd_toEndOf="@+id/textViewLetGet"
+    app:layout_constraintStart_toStartOf="@+id/textViewLetGet"
+    app:layout_constraintTop_toBottomOf="@+id/textViewLetGet" />
+
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonGetStarted"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="30dp"
+    android:layout_marginTop="32dp"
+    android:backgroundTint="@color/yellow"
+    android:fontFamily="@font/poppins_black"
+    android:paddingVertical="16dp"
+    android:text="@string/get_started"
+    android:textAllCaps="false"
+    android:textColor="@color/black"
+    android:textSize="20sp"
+    app:cornerRadius="10dp"
+    app:layout_constraintEnd_toEndOf="@+id/textViewLoremIpsum"
+    app:layout_constraintStart_toStartOf="@+id/textViewLoremIpsum"
+    app:layout_constraintTop_toBottomOf="@+id/textViewLoremIpsum" />
+</androidx.constraintlayout.widget.ConstraintLayout>
