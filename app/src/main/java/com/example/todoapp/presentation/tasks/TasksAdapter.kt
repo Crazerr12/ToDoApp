@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.databinding.ItemTaskBinding
+import com.example.todoapp.presentation.models.TaskModel
 
 class TasksAdapter: RecyclerView.Adapter<TaskViewHolder>() {
 
