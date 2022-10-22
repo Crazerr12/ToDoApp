@@ -75,6 +75,7 @@ class RegisterFragment : Fragment() {
                         if (response.isSuccessful){
                             val token = response.body()?.token ?: "No token"
                             editor.putString("TOKEN", token)
+                            editor.apply()
                         }
                     }
 

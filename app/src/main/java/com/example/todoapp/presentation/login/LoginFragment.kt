@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentLoginBinding
-import com.example.todoapp.presentation.api.ApiService
 import com.example.todoapp.presentation.api.RetrofitInstance
 import com.example.todoapp.presentation.common.Validator
 import com.example.todoapp.presentation.models.LoginModel
@@ -21,8 +20,6 @@ import com.example.todoapp.presentation.models.TokenModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-
 
 class LoginFragment : Fragment() {
 
@@ -55,6 +52,7 @@ class LoginFragment : Fragment() {
                     email = binding.editTextEmail.text.toString(),
                     password = binding.editTextConfirmPassword.text.toString()
                 )
+
                 RetrofitInstance.retrofit.login(userLogin).enqueue(object : Callback<TokenModel> {
                     override fun onResponse(
                         call: Call<TokenModel>,
@@ -63,6 +61,7 @@ class LoginFragment : Fragment() {
                         if (response.isSuccessful) {
                             val token = response.body()?.token ?: "No token"
                             editor.putString("TOKEN", token)
+                            editor.apply()
                         }
                     }
 

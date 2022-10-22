@@ -2,7 +2,7 @@ package com.example.todoapp.presentation.models
 
 
 data class TaskModel(
-    val id: Int,
+    val id: String,
     val category: String,
     val title: String,
     val description: String,
