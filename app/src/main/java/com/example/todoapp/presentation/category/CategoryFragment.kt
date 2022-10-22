@@ -1,6 +1,7 @@
 package com.example.todoapp.presentation.category
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +34,7 @@ class CategoryFragment(private val position: Int) : Fragment() {
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
 
+        preferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         val token = preferences.getString("TOKEN", "")
         val adapter = TasksAdapter()
         binding.recyclerAdapter.adapter = adapter
@@ -63,7 +65,7 @@ class CategoryFragment(private val position: Int) : Fragment() {
                     title = "fourth",
                     description = "Have Lunch by 2pm",
                     date = LocalDate.now().toEpochDay(),
-                    isCompleted = true
+                    isCompleted = false
                 )
             )
         }
