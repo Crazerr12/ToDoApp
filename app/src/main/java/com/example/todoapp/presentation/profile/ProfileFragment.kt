@@ -28,8 +28,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val email = preferences.getString("EMAIL", "")
-        binding.collapsingToolbar.title = "Welcome $email"
         val editor: SharedPreferences.Editor = preferences.edit()
+        binding.collapsingToolbar.title = "Welcome $email"
 
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
