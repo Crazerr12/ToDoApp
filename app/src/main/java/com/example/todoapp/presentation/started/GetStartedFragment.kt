@@ -14,21 +14,21 @@ import com.example.todoapp.databinding.FragmentLoginBinding
 
 class GetStartedFragment : Fragment() {
 
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var preferences: SharedPreferences
     lateinit var binding: FragmentGetStartedBinding
-    var isRemember = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGetStartedBinding.inflate(inflater, container, false)
-        sharedPreferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
-        isRemember = sharedPreferences.getBoolean("REMEMBER", false)
+        preferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
+        val token = preferences.getString("TOKEN", null)
+
 
         val navigation = this.findNavController()
 
-        if (isRemember) {
+        if (token != null) {
             navigation.navigate(R.id.switchFragment)
         }
 

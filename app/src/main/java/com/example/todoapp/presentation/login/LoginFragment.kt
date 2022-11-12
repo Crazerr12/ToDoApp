@@ -39,7 +39,6 @@ class LoginFragment : Fragment() {
         binding.buttonSignIn.setOnClickListener {
 
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            val email: String = binding.editTextEmail.text.toString()
 
             binding.inputLayoutEmail.error =
                 validator.emailValid(binding.editTextEmail.text)
@@ -62,6 +61,8 @@ class LoginFragment : Fragment() {
                             val token = response.body()?.token ?: "No token"
                             editor.putString("TOKEN", token)
                             editor.apply()
+                            toastShow(string = getString(R.string.success))
+                            navigation.navigate(R.id.action_loginFragment_to_switchFragment)
                         }
                     }
 
@@ -69,12 +70,6 @@ class LoginFragment : Fragment() {
                         Log.e(TAG, "onFailure: ${t.message}")
                     }
                 })
-
-                toastShow(string = getString(R.string.success))
-                editor.putString("EMAIL", email)
-                editor.putBoolean("REMEMBER", true)
-                editor.apply()
-                navigation.navigate(R.id.action_loginFragment_to_switchFragment)
             }
         }
 

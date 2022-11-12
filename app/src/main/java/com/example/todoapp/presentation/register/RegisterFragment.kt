@@ -29,8 +29,9 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegisterBinding.inflate(inflater,container,false)
-        sharedPreferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
+        binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        sharedPreferences =
+            requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         return (binding.root)
     }
 
@@ -41,7 +42,6 @@ class RegisterFragment : Fragment() {
 
         binding.buttonRegister.setOnClickListener {
 
-            val email = binding.editTextEmail.text.toString()
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
             binding.inputLayoutFullName.error =
@@ -67,28 +67,26 @@ class RegisterFragment : Fragment() {
                     email = binding.editTextEmail.text.toString(),
                     password = binding.editTextEnterPassword.text.toString()
                 )
-                RetrofitInstance.retrofit.registration(userRegistration).enqueue(object : Callback<TokenModel>{
-                    override fun onResponse(
-                        call: Call<TokenModel>,
-                        response: Response<TokenModel>
-                    ) {
-                        if (response.isSuccessful){
-                            val token = response.body()?.token ?: "No token"
-                            editor.putString("TOKEN", token)
-                            editor.apply()
+                RetrofitInstance.retrofit.registration(userRegistration)
+                    .enqueue(object : Callback<TokenModel> {
+                        override fun onResponse(
+                            call: Call<TokenModel>,
+                            response: Response<TokenModel>
+                        ) {
+                            if (response.isSuccessful) {
+                                val token = response.body()?.token ?: "No token"
+                                editor.putString("TOKEN", token)
+                                editor.apply()
+                                navigation.navigate(R.id.action_registerFragment_to_switchFragment)
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<TokenModel>, t: Throwable) {
-                        Log.e(TAG, "onFailure: ${t.message}")
-                    }
+                        override fun onFailure(call: Call<TokenModel>, t: Throwable) {
+                            Log.e(TAG, "onFailure: ${t.message}")
+                        }
 
-                })
+                    })
 
-                editor.putString("EMAIL", email)
-                editor.putBoolean("REMEMBER", true)
-                editor.apply()
-                navigation.navigate(R.id.action_registerFragment_to_switchFragment)
             }
         }
 
