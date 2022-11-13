@@ -1,11 +1,7 @@
 package com.example.todoapp.presentation.api
 
-import com.example.todoapp.presentation.models.LoginModel
-import com.example.todoapp.presentation.models.RegistrationModel
-import com.example.todoapp.presentation.models.TaskModel
-import com.example.todoapp.presentation.models.TokenModel
+import com.example.todoapp.presentation.models.*
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
@@ -26,12 +22,12 @@ interface ApiService {
     @GET("api/todos")
     fun getTodos(
         @Header("Authorization") token: String?
-    ): Call<List<TaskModel>>
+    ): Call<List<TaskModelGet>>
 
     @POST("api/todos")
     fun addTask(
         @Header("Authorization") token: String?,
-        @Body body: TaskModel
+        @Body body: TaskModelPost
     ): Call<Unit>
 
     @DELETE("api/todos/{id}")

@@ -12,7 +12,6 @@ import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentProfileBinding
 import com.example.todoapp.presentation.api.RetrofitInstance
 import com.example.todoapp.presentation.models.RegistrationModel
-import com.example.todoapp.presentation.models.TaskModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

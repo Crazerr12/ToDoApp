@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.databinding.ItemTaskBinding
-import com.example.todoapp.presentation.models.TaskModel
+import com.example.todoapp.presentation.models.TaskModelGet
 
-class TasksAdapter: RecyclerView.Adapter<TaskViewHolder>() {
+class TasksAdapter(private val clickListener: ((idDelete: String?) -> Unit)?): RecyclerView.Adapter<TaskViewHolder>() {
 
-    private val items = mutableListOf<TaskModel>()
+    private val items = mutableListOf<TaskModelGet>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -18,19 +18,15 @@ class TasksAdapter: RecyclerView.Adapter<TaskViewHolder>() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position],
+            clickListener!!)
     }
 
-    override fun getItemCount()= items.size
+    override fun getItemCount() = items.size
 
-    fun submitList(tasks: List<TaskModel>) {
+    fun submitList(tasks: List<TaskModelGet>) {
         items.clear()
         items.addAll(tasks)
         notifyDataSetChanged()
-    }
-
-    fun addItem(task: TaskModel) {
-        items.add(task)
-        notifyItemInserted(items.lastIndex)
     }
 }

@@ -30,7 +30,11 @@
         android:id="@+id/switchFragment"
         android:name="com.example.todoapp.presentation.profile.SwitchFragment"
         android:label="fragment_profile_and_tasks_switch"
-        tools:layout="@layout/fragment_switch" />
+        tools:layout="@layout/fragment_switch" >
+        <action
+            android:id="@+id/action_switchFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.todoapp.presentation.register.RegisterFragment"
@@ -40,4 +44,14 @@
             android:id="@+id/action_registerFragment_to_switchFragment"
             app:destination="@id/switchFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.example.todoapp.presentation.tasks.AddTaskFragment"
+        android:label="fragment_add_task"
+        tools:layout="@layout/fragment_add_task" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.todoapp.presentation.category.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category"/>
 </navigation>
