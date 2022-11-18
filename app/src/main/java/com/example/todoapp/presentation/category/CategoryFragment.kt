@@ -2,7 +2,6 @@ package com.example.todoapp.presentation.category
 
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -12,11 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.setFragmentResult
-import androidx.navigation.dynamicfeatures.Constants
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCategoryBinding
@@ -26,10 +21,9 @@ import com.example.todoapp.presentation.tasks.TasksAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.FieldPosition
 
-
-class CategoryFragment(private val position: Int, private val category : List<TaskModelGet>) : Fragment() {
+//TODO 3) Теперь осталось отобразить нужные категории, в зависимости от названия таба
+class CategoryFragment(private val position: Int, private val category: List<String>) : Fragment() {
 
     lateinit var binding: FragmentCategoryBinding
     lateinit var preferences: SharedPreferences
@@ -66,8 +60,6 @@ class CategoryFragment(private val position: Int, private val category : List<Ta
 
         binding.recyclerAdapter.adapter = adapter
 
-
-
         RetrofitInstance.retrofit.getTodos("Bearer $token").enqueue(object :
             Callback<List<TaskModelGet>> {
             override fun onResponse(
@@ -76,6 +68,7 @@ class CategoryFragment(private val position: Int, private val category : List<Ta
             ) {
                 if (response.isSuccessful) {
                     val tasks = response.body()
+                    //TODO 4) тут можно написать какой нибудь код на 2 строки
                     adapter.submitList(tasks!!)
                 }
 

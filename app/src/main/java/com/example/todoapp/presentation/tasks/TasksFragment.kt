@@ -40,26 +40,19 @@ class TasksFragment : Fragment() {
                 if (response.isSuccessful) {
                     val tasks = response.body()
                     val categoryList = tasks!!.toMutableSet().map { it.category }
-
-                    val tabList = mutableListOf<Unit>()
-
-                    for (category in categoryList) {
-                        tabList.add(
-                            binding.tabLayoutFragment.addTab(
-                                binding.tabLayoutFragment.newTab()
-                            )
+                    //TODO 1) Список уникальных категорий получили, теперь формируем необходимые табы через цикл
+                    for (value in categoryList) {
+                        binding.tabLayoutFragment.addTab(//добавляет таб в список табов
+                            binding.tabLayoutFragment.newTab()//создает новый там
+                                .setText(value)//даем название из списка
                         )
                     }
-                    val tabCounter = tabList.size
-                    var count = 0;
-                    while (count <= tabCounter){
-                        if (tasks[0].category == categoryList[count]){
-                            val taskCategorysList = mutableListOf<TaskModelGet>()
-                            taskCategorysList.add(tasks[count])
-                            binding.viewPager2.adapter = PagerAdapter(requireParentFragment(), tabCounter, taskCategorysList)
-                        }
-                    }
 
+                    binding.viewPager2.adapter = PagerAdapter(
+                        this@TasksFragment, //передаем этот фрагмент
+                        binding.tabLayoutFragment.tabCount,//передаем колличество созданных табов
+                        categoryList//передаем список категорий, по другому можно сказать, что это теперь список названий табов
+                    )
 
                     TabLayoutMediator(
                         binding.tabLayoutFragment,
@@ -78,6 +71,7 @@ class TasksFragment : Fragment() {
                 Log.e(ContentValues.TAG, "onFailure ${t.message}")
             }
         })
+
         return binding.root
     }
 }
