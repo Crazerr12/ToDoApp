@@ -24,6 +24,7 @@
     <string name="Entertainments">Entertainments</string>
     <string name="Study">Study</string>
     <string name="exit">Exit</string>
+    <string name="category">Enter the category</string>
     <string name="title">Enter the title</string>
     <string name="description">Enter the description</string>
     <string name="task">Enter the task</string>

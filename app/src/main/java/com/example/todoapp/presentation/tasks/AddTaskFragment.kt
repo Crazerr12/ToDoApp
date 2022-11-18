@@ -34,11 +34,12 @@ class AddTaskFragment : Fragment() {
 
         binding.buttonAddTask.setOnClickListener{
 
+            val category = binding.editTextCategory.text.toString()
             val date = System.currentTimeMillis() / 1000
             val title = binding.editTextTitle.text.toString()
             val description = binding.editTextDescription.text.toString()
             val taskInfo = TaskModelPost(
-                category = "string",
+                category = category,
                 title = title,
                 description = description,
                 date = date,

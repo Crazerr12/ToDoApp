@@ -2,6 +2,7 @@ package com.example.todoapp.presentation.category
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.setFragmentResult
+import androidx.navigation.dynamicfeatures.Constants
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCategoryBinding
@@ -21,9 +26,10 @@ import com.example.todoapp.presentation.tasks.TasksAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.FieldPosition
 
 
-class CategoryFragment(private val position: Int) : Fragment() {
+class CategoryFragment(private val position: Int, private val category : List<TaskModelGet>) : Fragment() {
 
     lateinit var binding: FragmentCategoryBinding
     lateinit var preferences: SharedPreferences
@@ -39,7 +45,6 @@ class CategoryFragment(private val position: Int) : Fragment() {
 
         val token = preferences.getString("TOKEN", "")
         val navigation = this.findNavController()
-
         val adapter = TasksAdapter { idDelete ->
             idDelete.let {
                 RetrofitInstance.retrofit.deleteTask("Bearer $token", it.toString())
@@ -60,6 +65,8 @@ class CategoryFragment(private val position: Int) : Fragment() {
         }
 
         binding.recyclerAdapter.adapter = adapter
+
+
 
         RetrofitInstance.retrofit.getTodos("Bearer $token").enqueue(object :
             Callback<List<TaskModelGet>> {
