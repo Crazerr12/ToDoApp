@@ -52,17 +52,14 @@ class TasksFragment : Fragment() {
                     }
                     val tabCounter = tabList.size
                     var count = 0;
-                    val taskCategorysList = mutableListOf<TaskModelGet>()
-
-                    for (task in tasks){
-                        while (count <= tabCounter){
-                            if (task.category == categoryList[count]){
-                                taskCategorysList.add(task)
-                            }
+                    while (count <= tabCounter){
+                        if (tasks[0].category == categoryList[count]){
+                            val taskCategorysList = mutableListOf<TaskModelGet>()
+                            taskCategorysList.add(tasks[count])
+                            binding.viewPager2.adapter = PagerAdapter(requireParentFragment(), tabCounter, taskCategorysList)
                         }
                     }
 
-                    binding.viewPager2.adapter = PagerAdapter(requireParentFragment(), tabCounter, taskCategorysList)
 
                     TabLayoutMediator(
                         binding.tabLayoutFragment,
