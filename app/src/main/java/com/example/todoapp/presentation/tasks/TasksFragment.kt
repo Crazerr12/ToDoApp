@@ -39,8 +39,7 @@ class TasksFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     val tasks = response.body()
-                    val categoryList = tasks!!.toMutableSet().map { it.category }
-                    //TODO 1) Список уникальных категорий получили, теперь формируем необходимые табы через цикл
+                    val categoryList = tasks!!.map { it.category }.toMutableSet().toMutableList()
                     for (value in categoryList) {
                         binding.tabLayoutFragment.addTab(//добавляет таб в список табов
                             binding.tabLayoutFragment.newTab()//создает новый там

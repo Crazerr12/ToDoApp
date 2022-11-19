@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.databinding.ItemTaskBinding
 import com.example.todoapp.presentation.models.TaskModelGet
 
-class TasksAdapter(private val clickListener: ((idDelete: String?) -> Unit)?): RecyclerView.Adapter<TaskViewHolder>() {
+class TasksAdapter(private val clickListener: ((idDelete: String?, idMark: String?) -> Unit)?): RecyclerView.Adapter<TaskViewHolder>() {
 
     private val items = mutableListOf<TaskModelGet>()
 

@@ -7,6 +7,8 @@
     <com.google.android.material.tabs.TabLayout
         app:tabTextAppearance="@style/TabTextSize"
         android:id="@+id/tabLayoutFragment"
+        app:tabMode="scrollable"
+        app:tabGravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,8 +1,10 @@
 package com.example.todoapp.presentation.api
 
 import com.example.todoapp.presentation.models.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface ApiService {
 
@@ -34,5 +36,11 @@ interface ApiService {
     fun deleteTask(
         @Header("Authorization") token: String?,
         @Path ("id") id : String
+    ): Call<Unit>
+
+    @PUT("api/todos/mark/{id}")
+    fun putCheckbox(
+        @Header("Authorization") token: String?,
+        @Path ("id") id: String
     ): Call<Unit>
 }

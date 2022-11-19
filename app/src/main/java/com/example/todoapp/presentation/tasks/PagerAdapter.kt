@@ -8,7 +8,7 @@ import com.example.todoapp.presentation.models.TaskModelGet
 class PagerAdapter(
     fragment: Fragment,
     private val tabCounter: Int,
-    private val category: List<String> //TODO 2) не много тип данных поменял
+    private val category: List<String>
 ) :
     FragmentStateAdapter(fragment) {
 

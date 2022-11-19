@@ -22,7 +22,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//TODO 3) Теперь осталось отобразить нужные категории, в зависимости от названия таба
 class CategoryFragment(private val position: Int, private val category: List<String>) : Fragment() {
 
     lateinit var binding: FragmentCategoryBinding
@@ -39,14 +38,19 @@ class CategoryFragment(private val position: Int, private val category: List<Str
 
         val token = preferences.getString("TOKEN", "")
         val navigation = this.findNavController()
-        val adapter = TasksAdapter { idDelete ->
+        val adapter = TasksAdapter { idDelete, idMark ->
             idDelete.let {
                 RetrofitInstance.retrofit.deleteTask("Bearer $token", it.toString())
                     .enqueue(object : Callback<Unit> {
                         override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                             if (response.isSuccessful) {
-                                Toast.makeText(requireContext(), "task delete", Toast.LENGTH_SHORT)
-                                    .show()
+                                if (idMark == null)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "task delete",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
                             }
                         }
 
@@ -54,6 +58,25 @@ class CategoryFragment(private val position: Int, private val category: List<Str
                             Log.e(TAG, "onFailure ${t.message}")
                         }
 
+                    })
+            }
+            idMark.let {
+                RetrofitInstance.retrofit.putCheckbox("Bearer $token", it.toString())
+                    .enqueue(object : Callback<Unit> {
+                        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                            if (response.isSuccessful)
+                                if (idDelete == null)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "task complete",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                        }
+
+                        override fun onFailure(call: Call<Unit>, t: Throwable) {
+                            Log.e(TAG, "onFailure ${t.message}")
+                        }
                     })
             }
         }
@@ -68,10 +91,19 @@ class CategoryFragment(private val position: Int, private val category: List<Str
             ) {
                 if (response.isSuccessful) {
                     val tasks = response.body()
-                    //TODO 4) тут можно написать какой нибудь код на 2 строки
-                    adapter.submitList(tasks!!)
+                    val list = mutableListOf<TaskModelGet>()
+                    when (position) {
+                        position -> {
+                            for (task in tasks!!) {
+                                if (category[position] == task.category) {
+                                    list.add(task)
+                                }
+                            }
+                            adapter.submitList(list)
+                            list.clear()
+                        }
+                    }
                 }
-
             }
 
             override fun onFailure(call: Call<List<TaskModelGet>>, t: Throwable) {
