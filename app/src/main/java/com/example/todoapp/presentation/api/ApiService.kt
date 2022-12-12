@@ -1,6 +1,7 @@
 package com.example.todoapp.presentation.api
 
 import com.example.todoapp.presentation.models.*
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -19,7 +20,7 @@ interface ApiService {
     @GET("api/user")
     fun getInfo(
         @Header("Authorization") token: String?
-    ): Call<RegistrationModel>
+    ): Call<UserInfoModel>
 
     @GET("api/todos")
     fun getTodos(
@@ -35,12 +36,25 @@ interface ApiService {
     @DELETE("api/todos/{id}")
     fun deleteTask(
         @Header("Authorization") token: String?,
-        @Path ("id") id : String
+        @Path("id") id: String
     ): Call<Unit>
 
     @PUT("api/todos/mark/{id}")
     fun putCheckbox(
         @Header("Authorization") token: String?,
-        @Path ("id") id: String
+        @Path("id") id: String
     ): Call<Unit>
+
+    @Multipart
+    @POST("api/user/photo")
+    fun postImage(
+        @Header("Authorization") token: String?,
+        @Part uploadedFile: MultipartBody.Part
+    ): Call<Unit>
+
+    @GET("api/user/photo/{fileId}")
+    fun getImage(
+        @Header("Authorization") token: String?,
+        @Path ("fileId") fileId: String
+    ): Call<ResponseBody>
 }
