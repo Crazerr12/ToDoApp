@@ -1,28 +1,26 @@
 package com.example.todoapp.presentation.login
 
-import android.content.ContentValues.TAG
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
+import com.example.todoapp.data.repository.UserRepositoryImplementation
+import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.databinding.FragmentLoginBinding
-import com.example.todoapp.presentation.api.RetrofitInstance
+import com.example.todoapp.domain.usecases.SendLoginUseCase
 import com.example.todoapp.presentation.common.Validator
 import com.example.todoapp.presentation.models.LoginModel
-import com.example.todoapp.presentation.models.TokenModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginFragment : Fragment() {
 
+    private val userStorage = SharedPrefUserStorage(requireContext())
+    private val userRepository = UserRepositoryImplementation(userStorage)
+    private val sendLoginUseCase = SendLoginUseCase(userRepository)
     lateinit var sharedPreferences: SharedPreferences
     lateinit var binding: FragmentLoginBinding
 
@@ -38,8 +36,6 @@ class LoginFragment : Fragment() {
 
         binding.buttonSignIn.setOnClickListener {
 
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-
             binding.inputLayoutEmail.error =
                 validator.emailValid(binding.editTextEmail.text)
             binding.inputLayoutConfirmPassword.error =
@@ -52,24 +48,7 @@ class LoginFragment : Fragment() {
                     password = binding.editTextConfirmPassword.text.toString()
                 )
 
-                RetrofitInstance.retrofit.login(userLogin).enqueue(object : Callback<TokenModel> {
-                    override fun onResponse(
-                        call: Call<TokenModel>,
-                        response: Response<TokenModel>
-                    ) {
-                        if (response.isSuccessful) {
-                            val token = response.body()?.token ?: "No token"
-                            editor.putString("TOKEN", token)
-                            editor.apply()
-                            toastShow(string = getString(R.string.success))
-                            navigation.navigate(R.id.action_loginFragment_to_switchFragment)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<TokenModel>, t: Throwable) {
-                        Log.e(TAG, "onFailure: ${t.message}")
-                    }
-                })
+                sendLoginUseCase.execute(userLogin, navigation)
             }
         }
 
@@ -79,7 +58,4 @@ class LoginFragment : Fragment() {
 
         return (binding.root)
     }
-
-    fun toastShow(string: String) =
-        Toast.makeText(requireContext(), string, Toast.LENGTH_SHORT).show()
 }

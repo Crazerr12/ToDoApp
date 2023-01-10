@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentGetStartedBinding
-import com.example.todoapp.databinding.FragmentLoginBinding
 
 class GetStartedFragment : Fragment() {
 
@@ -24,17 +23,15 @@ class GetStartedFragment : Fragment() {
         binding = FragmentGetStartedBinding.inflate(inflater, container, false)
         preferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         val token = preferences.getString("TOKEN", null)
-
-
         val navigation = this.findNavController()
 
-        if (token != null) {
+        if (token != null)
             navigation.navigate(R.id.switchFragment)
-        }
 
-        binding.buttonGetStarted.setOnClickListener{
+        binding.buttonGetStarted.setOnClickListener {
             navigation.navigate(R.id.action_getStartedFragment_to_loginFragment)
         }
-        return (binding.root)
+
+        return binding.root
     }
 }

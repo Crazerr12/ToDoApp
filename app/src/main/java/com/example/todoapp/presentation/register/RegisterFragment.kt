@@ -3,25 +3,23 @@ package com.example.todoapp.presentation.register
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.helper.widget.MotionEffect.TAG
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.todoapp.R
+import com.example.todoapp.data.repository.UserRepositoryImplementation
+import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.presentation.common.Validator
 import com.example.todoapp.databinding.FragmentRegisterBinding
-import com.example.todoapp.presentation.api.RetrofitInstance
+import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
 import com.example.todoapp.presentation.models.RegistrationModel
-import com.example.todoapp.presentation.models.TokenModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RegisterFragment : Fragment() {
 
+    private val userStorage = SharedPrefUserStorage(requireContext())
+    private val userRepository = UserRepositoryImplementation(userStorage)
+    private val registerByEmailUseCase = RegisterByEmailUseCase(userRepository)
     lateinit var sharedPreferences: SharedPreferences
     lateinit var binding: FragmentRegisterBinding
 
@@ -41,8 +39,6 @@ class RegisterFragment : Fragment() {
         val validator = Validator()
 
         binding.buttonRegister.setOnClickListener {
-
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
             binding.inputLayoutFullName.error =
                 validator.nameValid(binding.editTextFullName.text)
@@ -67,26 +63,8 @@ class RegisterFragment : Fragment() {
                     email = binding.editTextEmail.text.toString(),
                     password = binding.editTextEnterPassword.text.toString()
                 )
-                RetrofitInstance.retrofit.registration(userRegistration)
-                    .enqueue(object : Callback<TokenModel> {
-                        override fun onResponse(
-                            call: Call<TokenModel>,
-                            response: Response<TokenModel>
-                        ) {
-                            if (response.isSuccessful) {
-                                val token = response.body()?.token ?: "No token"
-                                editor.putString("TOKEN", token)
-                                editor.apply()
-                                navigation.navigate(R.id.action_registerFragment_to_switchFragment)
-                            }
-                        }
 
-                        override fun onFailure(call: Call<TokenModel>, t: Throwable) {
-                            Log.e(TAG, "onFailure: ${t.message}")
-                        }
-
-                    })
-
+                registerByEmailUseCase.execute(userRegistration, navigation)
             }
         }
 

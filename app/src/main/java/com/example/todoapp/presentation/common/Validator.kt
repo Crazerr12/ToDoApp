@@ -1,6 +1,8 @@
 package com.example.todoapp.presentation.common
 
+import android.graphics.*
 import android.text.Editable
+
 
 class Validator {
     fun emailValid(text: Editable?) =
