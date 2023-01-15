@@ -1,11 +1,7 @@
 package com.example.todoapp.presentation.category
 
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,17 +11,28 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCategoryBinding
-import com.example.todoapp.presentation.api.RetrofitInstance
-import com.example.todoapp.presentation.models.TaskModelGet
+import com.example.todoapp.data.repository.UserRepositoryImpl
+import com.example.todoapp.data.storage.SharedPrefUserStorage
+import com.example.todoapp.domain.usecases.DeleteTaskUseCase
+import com.example.todoapp.domain.usecases.GetTasksUseCase
+import com.example.todoapp.domain.usecases.GetTokenUseCase
+import com.example.todoapp.domain.usecases.PutCheckBoxUseCase
 import com.example.todoapp.presentation.tasks.TasksAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class CategoryFragment(private val position: Int, private val category: List<String>) : Fragment() {
 
+    private val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
+    private val getTokenUseCase = GetTokenUseCase(userRepository)
+    private val getTasksUseCase = GetTasksUseCase(userRepository)
+    private val deleteTaskUseCase = DeleteTaskUseCase(userRepository)
+    private val putCheckBoxUseCase = PutCheckBoxUseCase(userRepository)
+    private val vm = CategoryFragmentViewModel(
+        getTokenUseCase,
+        getTasksUseCase,
+        deleteTaskUseCase,
+        putCheckBoxUseCase
+    )
     lateinit var binding: FragmentCategoryBinding
-    lateinit var preferences: SharedPreferences
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -34,82 +41,44 @@ class CategoryFragment(private val position: Int, private val category: List<Str
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
-        preferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
 
-        val token = preferences.getString("TOKEN", "")
+        vm.getToken()
         val navigation = this.findNavController()
+
         val adapter = TasksAdapter { idDelete, idMark ->
             idDelete.let {
-                RetrofitInstance.retrofit.deleteTask("Bearer $token", it.toString())
-                    .enqueue(object : Callback<Unit> {
-                        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                            if (response.isSuccessful) {
-                                if (idMark == null)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "task delete",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Unit>, t: Throwable) {
-                            Log.e(TAG, "onFailure ${t.message}")
-                        }
-
-                    })
+                val param = DeleteTaskUseCase.Param(
+                    token = "Bearer ${vm.token}",
+                    taskId = it.toString()
+                )
+                vm.deleteTask(param)
+                if (idMark == null)
+                    Toast.makeText(
+                        requireContext(),
+                        "task delete",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
             }
             idMark.let {
-                RetrofitInstance.retrofit.putCheckbox("Bearer $token", it.toString())
-                    .enqueue(object : Callback<Unit> {
-                        override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                            if (response.isSuccessful)
-                                if (idDelete == null)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "task complete",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                        }
-
-                        override fun onFailure(call: Call<Unit>, t: Throwable) {
-                            Log.e(TAG, "onFailure ${t.message}")
-                        }
-                    })
+                val param = DeleteTaskUseCase.Param(
+                    token = "Bearer ${vm.token}",
+                    taskId = it.toString()
+                )
+                vm.putCheckBox(param)
+                if (idDelete == null)
+                    Toast.makeText(
+                        requireContext(),
+                        "task complete",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
             }
         }
 
         binding.recyclerAdapter.adapter = adapter
 
-        RetrofitInstance.retrofit.getTodos("Bearer $token").enqueue(object :
-            Callback<List<TaskModelGet>> {
-            override fun onResponse(
-                call: Call<List<TaskModelGet>>,
-                response: Response<List<TaskModelGet>>
-            ) {
-                if (response.isSuccessful) {
-                    val tasks = response.body()
-                    val list = mutableListOf<TaskModelGet>()
-                    when (position) {
-                        position -> {
-                            for (task in tasks!!) {
-                                if (category[position] == task.category) {
-                                    list.add(task)
-                                }
-                            }
-                            adapter.submitList(list)
-                            list.clear()
-                        }
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<TaskModelGet>>, t: Throwable) {
-                Log.e(TAG, "onFailure ${t.message}")
-            }
-        })
+        vm.getListOfTasks(position, category, adapter)
 
         binding.buttonAdd.setOnClickListener {
             navigation.navigate(R.id.action_switchFragment_to_addTaskFragment)

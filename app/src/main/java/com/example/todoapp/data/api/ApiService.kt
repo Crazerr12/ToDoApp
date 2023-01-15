@@ -1,9 +1,12 @@
-package com.example.todoapp.presentation.api
+package com.example.todoapp.data.api
 
+import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
+import com.example.todoapp.domain.usecases.LoginByEmailUseCase
 import com.example.todoapp.presentation.models.*
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 
@@ -11,50 +14,50 @@ interface ApiService {
 
     @POST("api/auth/login")
     @Headers("Content-Type: application/json")
-    fun login(@Body body: LoginModel): Call<TokenModel>
+    suspend fun login(@Body body: LoginByEmailUseCase.Param): Response<TokenModel>
 
     @POST("api/auth/registration")
     @Headers("Content-Type: application/json")
-    fun registration(@Body body: RegistrationModel): Call<TokenModel>
+    suspend fun registration(@Body body: RegisterByEmailUseCase.Param): Response<TokenModel>
 
     @GET("api/user")
-    fun getInfo(
+    suspend fun getUserInfo(
         @Header("Authorization") token: String?
-    ): Call<UserInfoModel>
+    ): Response<UserInfoModel>
 
     @GET("api/todos")
-    fun getTodos(
+    suspend fun getTodos(
         @Header("Authorization") token: String?
-    ): Call<List<TaskModelGet>>
+    ): Response<List<TaskModelGet>>
 
     @POST("api/todos")
-    fun addTask(
+    suspend fun addTask(
         @Header("Authorization") token: String?,
         @Body body: TaskModelPost
-    ): Call<Unit>
+    ): Response<Unit>
 
     @DELETE("api/todos/{id}")
-    fun deleteTask(
+    suspend fun deleteTask(
         @Header("Authorization") token: String?,
         @Path("id") id: String
-    ): Call<Unit>
+    ): Response<Unit>
 
     @PUT("api/todos/mark/{id}")
-    fun putCheckbox(
+    suspend fun putCheckbox(
         @Header("Authorization") token: String?,
         @Path("id") id: String
-    ): Call<Unit>
+    ): Response<Unit>
 
     @Multipart
     @POST("api/user/photo")
-    fun postImage(
+    suspend fun postImage(
         @Header("Authorization") token: String?,
         @Part uploadedFile: MultipartBody.Part
-    ): Call<Unit>
+    ): Response<Unit>
 
     @GET("api/user/photo/{fileId}")
-    fun getImage(
+    suspend fun getImage(
         @Header("Authorization") token: String?,
         @Path ("fileId") fileId: String
-    ): Call<ResponseBody>
+    ): Response<ResponseBody>
 }

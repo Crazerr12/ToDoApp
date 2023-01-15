@@ -1,4 +1,4 @@
-package com.example.todoapp.presentation.api
+package com.example.todoapp.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

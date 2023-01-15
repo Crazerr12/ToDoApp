@@ -1,18 +1,41 @@
 package com.example.todoapp.domain.repository
 
-import androidx.navigation.NavController
-import com.example.todoapp.presentation.models.LoginModel
-import com.example.todoapp.presentation.models.RegistrationModel
+import android.graphics.Bitmap
+import com.example.todoapp.domain.usecases.*
+import com.example.todoapp.presentation.models.TaskModelGet
+import com.example.todoapp.presentation.models.TokenModel
+import com.example.todoapp.presentation.models.UserInfoModel
+import okhttp3.ResponseBody
 
 interface UserRepository {
 
-    fun saveLogin(
-        userLogin: LoginModel,
-        navigation: NavController
-    ): Unit
+    suspend fun userLogin(
+        param: LoginByEmailUseCase.Param
+    ): TokenModel?
 
-    fun saveRegister(
-        userRegistration: RegistrationModel,
-        navigation: NavController
-    ): Unit
+    suspend fun userRegister(
+        param: RegisterByEmailUseCase.Param
+    ): TokenModel?
+
+    fun getToken(): String?
+
+    fun saveToken(param: SaveTokenUseCase.Param)
+
+    suspend fun getUserInfo(param: String) : UserInfoModel
+
+    suspend fun getUserImage(param: GetUserImageUseCase.Param): ResponseBody?
+
+    suspend fun getTasks(param: String): List<TaskModelGet>
+
+    suspend fun addTask(param: AddTaskUseCase.Param): Unit?
+
+    suspend fun deleteTask(param: DeleteTaskUseCase.Param): Unit?
+
+    suspend fun putCheckBox(param: DeleteTaskUseCase.Param): Unit?
+
+    suspend fun putUserImage(param: PutUserImageUseCase.Param): Unit?
+
+    fun getRoundedBitmap(param: Bitmap?): Bitmap?
+
+    fun exitFromAccount()
 }

@@ -6,20 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.todoapp.data.repository.UserRepositoryImplementation
+import com.example.todoapp.R
+import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.presentation.common.Validator
 import com.example.todoapp.databinding.FragmentRegisterBinding
 import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
-import com.example.todoapp.presentation.models.RegistrationModel
+import com.example.todoapp.domain.usecases.SaveTokenUseCase
 
 class RegisterFragment : Fragment() {
 
     private val userStorage = SharedPrefUserStorage(requireContext())
-    private val userRepository = UserRepositoryImplementation(userStorage)
+    private val userRepository = UserRepositoryImpl(userStorage)
     private val registerByEmailUseCase = RegisterByEmailUseCase(userRepository)
+    private val saveTokenUseCase = SaveTokenUseCase(userRepository)
+    private var vm: RegisterFragmentViewModel =
+        RegisterFragmentViewModel(registerByEmailUseCase, saveTokenUseCase)
     lateinit var sharedPreferences: SharedPreferences
     lateinit var binding: FragmentRegisterBinding
 
@@ -58,14 +63,21 @@ class RegisterFragment : Fragment() {
             if (binding.inputLayoutFullName.error == null && binding.inputLayoutEmail.error == null &&
                 binding.inputLayoutEnterPassword.error == null && binding.inputLayoutConfirmPassword.error == null
             ) {
-                val userRegistration = RegistrationModel(
+                val userRegistration = RegisterByEmailUseCase.Param(
                     name = binding.editTextFullName.text.toString(),
                     email = binding.editTextEmail.text.toString(),
                     password = binding.editTextEnterPassword.text.toString()
                 )
-
-                registerByEmailUseCase.execute(userRegistration, navigation)
+                vm.userRegister(userRegistration)
             }
+        }
+
+        vm.token.observe(viewLifecycleOwner) {
+            if (it != null) {
+                navigation.navigate(R.id.action_loginFragment_to_switchFragment)
+                Toast.makeText(requireContext(), "Токен получен", Toast.LENGTH_SHORT).show()
+            } else
+                Toast.makeText(requireContext(), "Токен не получен", Toast.LENGTH_SHORT).show()
         }
 
         binding.textSignIn.setOnClickListener {

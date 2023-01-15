@@ -1,9 +1,6 @@
 package com.example.todoapp.presentation.tasks
 
-import android.content.ContentValues
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +8,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.databinding.FragmentAddTaskBinding
-import com.example.todoapp.presentation.api.RetrofitInstance
+import com.example.todoapp.data.repository.UserRepositoryImpl
+import com.example.todoapp.data.storage.SharedPrefUserStorage
+import com.example.todoapp.domain.usecases.AddTaskUseCase
+import com.example.todoapp.domain.usecases.GetTokenUseCase
 import com.example.todoapp.presentation.models.TaskModelPost
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class AddTaskFragment : Fragment() {
 
+    private var userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
+    private var getTokenUseCase = GetTokenUseCase(userRepository)
+    private val addTaskUseCase = AddTaskUseCase(userRepository)
+    private val vm = AddTaskFragmentViewModel(getTokenUseCase, addTaskUseCase)
     lateinit var binding: FragmentAddTaskBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +29,8 @@ class AddTaskFragment : Fragment() {
 
         binding = FragmentAddTaskBinding.inflate(inflater, container, false)
 
-        val preferences = requireActivity().getSharedPreferences("SHARED_PREF", MODE_PRIVATE)
-        val token = preferences.getString("TOKEN", null)
+        vm.getToken()
+
         val navigation = this.findNavController()
 
         binding.buttonAddTask.setOnClickListener{
@@ -46,21 +47,10 @@ class AddTaskFragment : Fragment() {
                 isCompleted = false
             )
 
-            RetrofitInstance.retrofit.addTask("Bearer $token", taskInfo)
-                .enqueue(object : Callback<Unit> {
-                    override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(requireContext(), "Successfully", Toast.LENGTH_SHORT)
-                                .show()
-                            navigation.popBackStack()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Unit>, t: Throwable) {
-                        Log.e(ContentValues.TAG, "onFailure ${t.message}")
-                    }
-
-                })
+            vm.addTask(taskInfo)
+            Toast.makeText(requireContext(), "Successfully", Toast.LENGTH_SHORT)
+                .show()
+            navigation.popBackStack()
         }
         return binding.root
     }

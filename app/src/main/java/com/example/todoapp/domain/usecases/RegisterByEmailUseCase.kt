@@ -1,15 +1,17 @@
 package com.example.todoapp.domain.usecases
 
-import androidx.navigation.NavController
 import com.example.todoapp.domain.repository.UserRepository
-import com.example.todoapp.presentation.models.RegistrationModel
+import com.example.todoapp.presentation.models.TokenModel
 
 class RegisterByEmailUseCase(private val userRepository: UserRepository) {
 
-    fun execute(
-        userRegistration: RegistrationModel,
-        navigation: NavController
-    ): Unit {
-        return userRepository.saveRegister(userRegistration, navigation)
+    suspend fun execute(param: RegisterByEmailUseCase.Param): TokenModel? {
+        return userRepository.userRegister(param)
     }
+
+    data class Param(
+        val name: String,
+        val email: String,
+        val password: String
+    )
 }
