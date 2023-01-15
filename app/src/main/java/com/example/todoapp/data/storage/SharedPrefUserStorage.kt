@@ -15,7 +15,7 @@ class SharedPrefUserStorage(context: Context) : UserStorage {
     }
 
     override fun getToken(): String? {
-        return sharedPreferences.getString("TOKEN", "")
+        return sharedPreferences.getString("TOKEN", null)
     }
 
     override fun exitFromAccount() {

@@ -1,7 +1,5 @@
 package com.example.todoapp.presentation.login
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,20 +16,19 @@ import com.example.todoapp.domain.usecases.LoginByEmailUseCase
 import com.example.todoapp.presentation.common.Validator
 
 class LoginFragment : Fragment() {
-
-    private val userStorage = SharedPrefUserStorage(requireContext())
-    private val userRepository = UserRepositoryImpl(userStorage)
-    private val sendLoginUseCase = LoginByEmailUseCase(userRepository)
-    private val saveTokenUseCase = SaveTokenUseCase(userRepository)
     lateinit var binding: FragmentLoginBinding
-    private val vm: LoginFragmentViewModel = LoginFragmentViewModel(sendLoginUseCase, saveTokenUseCase)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-
+        val userStorage = SharedPrefUserStorage(requireContext())
+        val userRepository = UserRepositoryImpl(userStorage)
+        val sendLoginUseCase = LoginByEmailUseCase(userRepository)
+        val saveTokenUseCase = SaveTokenUseCase(userRepository)
+        val vm = LoginFragmentViewModel(sendLoginUseCase, saveTokenUseCase)
         val validator = Validator()
         val navigation = this.findNavController()
 
@@ -53,13 +50,11 @@ class LoginFragment : Fragment() {
             }
         }
 
-        vm.token.observe(viewLifecycleOwner){
-            if (it != null)
-            {
+        vm.token.observe(viewLifecycleOwner) {
+            if (it != null) {
                 navigation.navigate(R.id.action_loginFragment_to_switchFragment)
                 Toast.makeText(requireContext(), "Токен получен", Toast.LENGTH_SHORT).show()
-            }
-            else
+            } else
                 Toast.makeText(requireContext(), "Токен не получен", Toast.LENGTH_SHORT).show()
         }
 

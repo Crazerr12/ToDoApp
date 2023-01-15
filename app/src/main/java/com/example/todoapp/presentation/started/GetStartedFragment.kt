@@ -15,17 +15,19 @@ import com.example.todoapp.domain.usecases.GetTokenUseCase
 
 class GetStartedFragment : Fragment() {
 
-    private var userStorage = SharedPrefUserStorage(requireContext())
-    private var userRepository = UserRepositoryImpl(userStorage)
-    private var getTokenUseCase: GetTokenUseCase = GetTokenUseCase(userRepository)
-    private var vm: GetStartedFragmentViewModel = GetStartedFragmentViewModel(getTokenUseCase)
+    //Context существует, когда уже создана view
     lateinit var binding: FragmentGetStartedBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentGetStartedBinding.inflate(inflater, container, false)
+        val userStorage = SharedPrefUserStorage(requireContext())
+        val userRepository = UserRepositoryImpl(userStorage)
+        val getTokenUseCase = GetTokenUseCase(userRepository)
+        val vm = GetStartedFragmentViewModel(getTokenUseCase)
         val navigation = this.findNavController()
 
         vm.getToken()

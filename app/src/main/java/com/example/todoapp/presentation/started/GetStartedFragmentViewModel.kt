@@ -13,8 +13,7 @@ class GetStartedFragmentViewModel(private val getTokenUseCase: GetTokenUseCase) 
     val token: LiveData<String?> = _token
 
     fun getToken() {
-        viewModelScope.launch {
             _token.value = getTokenUseCase.execute()
-        }
+
     }
 }
