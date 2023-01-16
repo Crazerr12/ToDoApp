@@ -14,10 +14,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class TasksFragment : Fragment() {
 
-    private val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
-    private val getTokenUseCase = GetTokenUseCase(userRepository)
-    private val getTasksUseCase = GetTasksUseCase(userRepository)
-    private val vm = TasksFragmentViewModel(getTokenUseCase, getTasksUseCase)
     lateinit var binding: FragmentTasksBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +21,10 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTasksBinding.inflate(inflater, container, false)
+        val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
+        val getTokenUseCase = GetTokenUseCase(userRepository)
+        val getTasksUseCase = GetTasksUseCase(userRepository)
+        val vm = TasksFragmentViewModel(getTokenUseCase, getTasksUseCase)
 
         vm.getToken()
         vm.getListOfCategoryTasks()

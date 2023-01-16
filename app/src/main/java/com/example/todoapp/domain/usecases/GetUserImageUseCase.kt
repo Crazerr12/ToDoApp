@@ -1,12 +1,12 @@
 package com.example.todoapp.domain.usecases
 
-import androidx.lifecycle.ViewModel
+import android.graphics.Bitmap
 import com.example.todoapp.domain.repository.UserRepository
 import okhttp3.ResponseBody
 
-class GetUserImageUseCase(private val userRepository: UserRepository): ViewModel() {
+class GetUserImageUseCase(private val userRepository: UserRepository) {
 
-    suspend fun execute(param: GetUserImageUseCase.Param): ResponseBody? {
+    suspend fun execute(param: GetUserImageUseCase.Param): Bitmap? {
         return userRepository.getUserImage(param)
     }
 

@@ -23,7 +23,7 @@ interface UserRepository {
 
     suspend fun getUserInfo(param: String) : UserInfoModel
 
-    suspend fun getUserImage(param: GetUserImageUseCase.Param): ResponseBody?
+    suspend fun getUserImage(param: GetUserImageUseCase.Param): Bitmap?
 
     suspend fun getTasks(param: String): List<TaskModelGet>
 
@@ -35,7 +35,7 @@ interface UserRepository {
 
     suspend fun putUserImage(param: PutUserImageUseCase.Param): Unit?
 
-    fun getRoundedBitmap(param: Bitmap?): Bitmap?
+    fun getRoundedBitmap(param: Bitmap): Bitmap?
 
     fun exitFromAccount()
 }

@@ -26,9 +26,7 @@ class CategoryFragmentViewModel(
     val tasks = _tasks
 
     fun getToken() {
-        viewModelScope.launch {
             _token.value = getTokenUseCase.execute()
-        }
     }
 
     fun getListOfTasks(position: Int, category: List<String>, adapter: TasksAdapter) {

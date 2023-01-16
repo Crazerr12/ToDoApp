@@ -20,9 +20,7 @@ class TasksFragmentViewModel(
     val categoryTasks = _categoryTasks
 
     fun getToken() {
-        viewModelScope.launch {
-            _token.value = getTokenUseCase.execute()
-        }
+        _token.value = getTokenUseCase.execute()
     }
 
     fun getListOfCategoryTasks() {

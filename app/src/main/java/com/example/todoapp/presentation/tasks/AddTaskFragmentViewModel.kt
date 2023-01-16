@@ -18,9 +18,7 @@ class AddTaskFragmentViewModel(
     val token: LiveData<String?> = _token
 
     fun getToken() {
-        viewModelScope.launch {
-            _token.value = getTokenUseCase.execute()
-        }
+        _token.value = getTokenUseCase.execute()
     }
 
     fun addTask(taskInfo: TaskModelPost){

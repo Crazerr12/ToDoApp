@@ -21,17 +21,6 @@ import com.example.todoapp.presentation.tasks.TasksAdapter
 
 class CategoryFragment(private val position: Int, private val category: List<String>) : Fragment() {
 
-    private val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
-    private val getTokenUseCase = GetTokenUseCase(userRepository)
-    private val getTasksUseCase = GetTasksUseCase(userRepository)
-    private val deleteTaskUseCase = DeleteTaskUseCase(userRepository)
-    private val putCheckBoxUseCase = PutCheckBoxUseCase(userRepository)
-    private val vm = CategoryFragmentViewModel(
-        getTokenUseCase,
-        getTasksUseCase,
-        deleteTaskUseCase,
-        putCheckBoxUseCase
-    )
     lateinit var binding: FragmentCategoryBinding
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -41,6 +30,17 @@ class CategoryFragment(private val position: Int, private val category: List<Str
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
+        val getTokenUseCase = GetTokenUseCase(userRepository)
+        val getTasksUseCase = GetTasksUseCase(userRepository)
+        val deleteTaskUseCase = DeleteTaskUseCase(userRepository)
+        val putCheckBoxUseCase = PutCheckBoxUseCase(userRepository)
+        val vm = CategoryFragmentViewModel(
+            getTokenUseCase,
+            getTasksUseCase,
+            deleteTaskUseCase,
+            putCheckBoxUseCase
+        )
 
         vm.getToken()
         val navigation = this.findNavController()

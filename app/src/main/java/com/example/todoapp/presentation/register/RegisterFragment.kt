@@ -1,7 +1,5 @@
 package com.example.todoapp.presentation.register
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +17,6 @@ import com.example.todoapp.domain.usecases.SaveTokenUseCase
 
 class RegisterFragment : Fragment() {
 
-    private val userStorage = SharedPrefUserStorage(requireContext())
-    private val userRepository = UserRepositoryImpl(userStorage)
-    private val registerByEmailUseCase = RegisterByEmailUseCase(userRepository)
-    private val saveTokenUseCase = SaveTokenUseCase(userRepository)
-    private var vm: RegisterFragmentViewModel =
-        RegisterFragmentViewModel(registerByEmailUseCase, saveTokenUseCase)
-    lateinit var sharedPreferences: SharedPreferences
     lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
@@ -33,13 +24,16 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        sharedPreferences =
-            requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         return (binding.root)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        val userStorage = SharedPrefUserStorage(requireContext())
+        val userRepository = UserRepositoryImpl(userStorage)
+        val registerByEmailUseCase = RegisterByEmailUseCase(userRepository)
+        val saveTokenUseCase = SaveTokenUseCase(userRepository)
+        var vm = RegisterFragmentViewModel(registerByEmailUseCase, saveTokenUseCase)
         val navigation = this.findNavController()
         val validator = Validator()
 

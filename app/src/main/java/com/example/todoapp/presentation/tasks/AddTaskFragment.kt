@@ -16,10 +16,6 @@ import com.example.todoapp.presentation.models.TaskModelPost
 
 class AddTaskFragment : Fragment() {
 
-    private var userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
-    private var getTokenUseCase = GetTokenUseCase(userRepository)
-    private val addTaskUseCase = AddTaskUseCase(userRepository)
-    private val vm = AddTaskFragmentViewModel(getTokenUseCase, addTaskUseCase)
     lateinit var binding: FragmentAddTaskBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +24,10 @@ class AddTaskFragment : Fragment() {
     ): View {
 
         binding = FragmentAddTaskBinding.inflate(inflater, container, false)
+        val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
+        val getTokenUseCase = GetTokenUseCase(userRepository)
+        val addTaskUseCase = AddTaskUseCase(userRepository)
+        val vm = AddTaskFragmentViewModel(getTokenUseCase, addTaskUseCase)
 
         vm.getToken()
 

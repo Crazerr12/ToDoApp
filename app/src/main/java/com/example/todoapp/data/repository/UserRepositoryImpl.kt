@@ -9,6 +9,7 @@ import com.example.todoapp.presentation.models.TaskModelGet
 import com.example.todoapp.presentation.models.TokenModel
 import com.example.todoapp.presentation.models.UserInfoModel
 import okhttp3.ResponseBody
+import java.io.InputStream
 
 class UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository {
 
@@ -33,8 +34,8 @@ class UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository 
         return RetrofitInstance.retrofit.getUserInfo(param).body()!!
     }
 
-    override suspend fun getUserImage(param: GetUserImageUseCase.Param): ResponseBody? {
-        return RetrofitInstance.retrofit.getImage(param.token, param.imageId).body()
+    override suspend fun getUserImage(param: GetUserImageUseCase.Param): Bitmap? {
+        return BitmapFactory.decodeStream(RetrofitInstance.retrofit.getImage(param.token, param.imageId).body()!!.byteStream())
     }
 
     override suspend fun getTasks(param: String): List<TaskModelGet> {
@@ -57,8 +58,8 @@ class UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository 
         return RetrofitInstance.retrofit.postImage(param.token, param.uploadedFile).body()
     }
 
-    override fun getRoundedBitmap(param: Bitmap?): Bitmap? {
-        val w = param!!.width
+    override fun getRoundedBitmap(param: Bitmap): Bitmap? {
+        val w = param.width
         val h = param.height
         val cx = w / 2
         val cy = h / 2

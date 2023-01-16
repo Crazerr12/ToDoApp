@@ -5,7 +5,7 @@ import com.example.todoapp.presentation.models.UserInfoModel
 
 class GetUserInfoUseCase(private val userRepository: UserRepository) {
 
-    suspend fun execute(param: String) : UserInfoModel{
+    suspend fun execute(param: String) : UserInfoModel {
         return userRepository.getUserInfo(param)
     }
 }

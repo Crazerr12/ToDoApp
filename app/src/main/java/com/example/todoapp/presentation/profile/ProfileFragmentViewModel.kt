@@ -24,37 +24,39 @@ class ProfileFragmentViewModel(
     private val putUserImage: PutUserImageUseCase
 ) : ViewModel() {
 
-    private var _userInfo = MutableLiveData<String?>()
-    val userInfo: LiveData<String?> = _userInfo
+    private var userList = mutableListOf("name", "idImage")
+    private var _userInfo = MutableLiveData<List<String?>>()
+    val userInfo: LiveData<List<String?>> = _userInfo
     private var _token: MutableLiveData<String?> = MutableLiveData<String?>()
     val token: LiveData<String?> = _token
     private var _image: MutableLiveData<Bitmap?> = MutableLiveData<Bitmap?>()
     val image: LiveData<Bitmap?> = _image
 
     fun getToken() {
-        viewModelScope.launch {
-            _token.value = getTokenUseCase.execute()
-        }
+        _token.value = getTokenUseCase.execute()
     }
 
     fun getUserInfo() {
         viewModelScope.launch {
-            _userInfo.value = getUserInfoUseCase.execute("Bearer $token").name
-            _userInfo.value = getUserInfoUseCase.execute("Bearer $token").imageId
+            val token = "Bearer ${_token.value}"
+            val name = getUserInfoUseCase.execute(token).name
+            val imageId = getUserInfoUseCase.execute(token).imageId
+            userList[0] = name
+            userList[1] = imageId
+            _userInfo.value = userList
         }
     }
 
     fun getImage() {
         viewModelScope.launch {
             val param = GetUserImageUseCase.Param(
-                userInfo.value?.get(0).toString(),
-                userInfo.value?.get(1).toString()
-            )
-            val image = getUserImageUseCase.execute(param)?.byteStream()
-            val bitmapImage = BitmapFactory.decodeStream(image)
+                "Bearer ${_token.value}",
+                userInfo.value?.get(1).toString() //Здесь value = null, возможно из-за viewModelScope
+            )                                     //в функции getUserInfo
+            val image = getUserImageUseCase.execute(param)
             _image.value = getRoundedBitmapUseCase.execute(
                 Bitmap.createScaledBitmap(
-                    bitmapImage,
+                    image!!,
                     150,
                     150,
                     false
