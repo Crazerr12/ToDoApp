@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.domain.usecases.*
+import com.example.todoapp.presentation.models.UserInfoModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -24,13 +25,16 @@ class ProfileFragmentViewModel(
     private val putUserImage: PutUserImageUseCase
 ) : ViewModel() {
 
-    private var userList = mutableListOf("name", "idImage")
-    private var _userInfo = MutableLiveData<List<String?>>()
-    val userInfo: LiveData<List<String?>> = _userInfo
+    private var _userInfo = MutableLiveData<UserInfoModel>()
+    val userInfo: LiveData<UserInfoModel> = _userInfo
     private var _token: MutableLiveData<String?> = MutableLiveData<String?>()
+    /* TODO
+    *   private var _token = getTokenUseCase.execute()
+    *   токен лучше хранить в обычной переменной, и как VM создается получать его
+    */
     val token: LiveData<String?> = _token
-    private var _image: MutableLiveData<Bitmap?> = MutableLiveData<Bitmap?>()
-    val image: LiveData<Bitmap?> = _image
+    private var _image: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
+    val image: LiveData<Bitmap> = _image
 
     fun getToken() {
         _token.value = getTokenUseCase.execute()
@@ -39,11 +43,7 @@ class ProfileFragmentViewModel(
     fun getUserInfo() {
         viewModelScope.launch {
             val token = "Bearer ${_token.value}"
-            val name = getUserInfoUseCase.execute(token).name
-            val imageId = getUserInfoUseCase.execute(token).imageId
-            userList[0] = name
-            userList[1] = imageId
-            _userInfo.value = userList
+            _userInfo.value = getUserInfoUseCase.execute(token)
         }
     }
 
@@ -51,7 +51,7 @@ class ProfileFragmentViewModel(
         viewModelScope.launch {
             val param = GetUserImageUseCase.Param(
                 "Bearer ${_token.value}",
-                userInfo.value?.get(1).toString() //Здесь value = null, возможно из-за viewModelScope
+                _userInfo.value!!.imageId //Здесь value = null, возможно из-за viewModelScope
             )                                     //в функции getUserInfo
             val image = getUserImageUseCase.execute(param)
             _image.value = getRoundedBitmapUseCase.execute(

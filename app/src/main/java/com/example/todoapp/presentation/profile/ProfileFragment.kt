@@ -55,11 +55,16 @@ class ProfileFragment : Fragment() {
         vm.getToken()
         vm.getUserInfo()
         vm.userInfo.observe(viewLifecycleOwner) {
-            binding.collapsingToolbar.title = "Welcome ${it?.get(0)}"
+            if (it != null){
+                binding.collapsingToolbar.title = "Welcome ${it.email}"
+// TODO после того как пришла информация о пользователе, делаем запрос на получение картинки
+                vm.getImage()
+            }
         }
-        vm.getImage()
         vm.image.observe(viewLifecycleOwner) {
-            binding.imageUserPhoto.setImageBitmap(it)
+            if(it != null){
+                binding.imageUserPhoto.setImageBitmap(it)
+            }
         }
 
         binding.imageUserPhoto.setOnClickListener {
