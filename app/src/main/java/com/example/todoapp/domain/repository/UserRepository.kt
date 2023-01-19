@@ -5,7 +5,6 @@ import com.example.todoapp.domain.usecases.*
 import com.example.todoapp.presentation.models.TaskModelGet
 import com.example.todoapp.presentation.models.TokenModel
 import com.example.todoapp.presentation.models.UserInfoModel
-import okhttp3.ResponseBody
 
 interface UserRepository {
 

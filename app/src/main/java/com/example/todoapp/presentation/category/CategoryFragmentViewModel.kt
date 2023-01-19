@@ -1,6 +1,5 @@
 package com.example.todoapp.presentation.category
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,25 +12,20 @@ import com.example.todoapp.presentation.tasks.TasksAdapter
 import kotlinx.coroutines.launch
 
 class CategoryFragmentViewModel(
-    private val getTokenUseCase: GetTokenUseCase,
+    getTokenUseCase: GetTokenUseCase,
     private val getTasksUseCase: GetTasksUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val putCheckBoxUseCase: PutCheckBoxUseCase
 ) : ViewModel() {
 
-    private var _token: MutableLiveData<String?> = MutableLiveData<String?>()
-    val token: LiveData<String?> = _token
+    private val token = getTokenUseCase.execute()
     private val _tasks: MutableLiveData<List<TaskModelGet>> =
         MutableLiveData<List<TaskModelGet>>()
     val tasks = _tasks
 
-    fun getToken() {
-            _token.value = getTokenUseCase.execute()
-    }
-
     fun getListOfTasks(position: Int, category: List<String>, adapter: TasksAdapter) {
         viewModelScope.launch {
-            val tasks = getTasksUseCase.execute("Bearer $token")
+            val tasks = getTasksUseCase.execute(token!!)
             val list = mutableListOf<TaskModelGet>()
             when (position) {
                 position -> {
@@ -47,14 +41,22 @@ class CategoryFragmentViewModel(
         }
     }
 
-    fun deleteTask(param: DeleteTaskUseCase.Param) {
+    fun deleteTask(taskId: String) {
         viewModelScope.launch {
+            val param = DeleteTaskUseCase.Param(
+                token = token!!,
+                taskId = taskId
+                    )
             deleteTaskUseCase.execute(param)
         }
     }
 
-    fun putCheckBox(param: DeleteTaskUseCase.Param) {
+    fun putCheckBox(taskId: String) {
         viewModelScope.launch {
+            val param = DeleteTaskUseCase.Param(
+                token = token!!,
+                taskId = taskId
+            )
             putCheckBoxUseCase.execute(param)
         }
     }

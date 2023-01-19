@@ -42,16 +42,11 @@ class CategoryFragment(private val position: Int, private val category: List<Str
             putCheckBoxUseCase
         )
 
-        vm.getToken()
         val navigation = this.findNavController()
 
         val adapter = TasksAdapter { idDelete, idMark ->
             idDelete.let {
-                val param = DeleteTaskUseCase.Param(
-                    token = "Bearer ${vm.token}",
-                    taskId = it.toString()
-                )
-                vm.deleteTask(param)
+                vm.deleteTask(it.toString())
                 if (idMark == null)
                     Toast.makeText(
                         requireContext(),
@@ -61,11 +56,7 @@ class CategoryFragment(private val position: Int, private val category: List<Str
                         .show()
             }
             idMark.let {
-                val param = DeleteTaskUseCase.Param(
-                    token = "Bearer ${vm.token}",
-                    taskId = it.toString()
-                )
-                vm.putCheckBox(param)
+                vm.putCheckBox(it.toString())
                 if (idDelete == null)
                     Toast.makeText(
                         requireContext(),

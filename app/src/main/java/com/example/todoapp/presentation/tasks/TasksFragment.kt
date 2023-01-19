@@ -26,7 +26,6 @@ class TasksFragment : Fragment() {
         val getTasksUseCase = GetTasksUseCase(userRepository)
         val vm = TasksFragmentViewModel(getTokenUseCase, getTasksUseCase)
 
-        vm.getToken()
         vm.getListOfCategoryTasks()
         vm.categoryTasks.observe(viewLifecycleOwner){
             for (value in it) {

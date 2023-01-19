@@ -11,7 +11,7 @@ import com.example.todoapp.presentation.models.UserInfoModel
 import okhttp3.ResponseBody
 import java.io.InputStream
 
-class UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository {
+class  UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository {
 
 
     override suspend fun userLogin(param: LoginByEmailUseCase.Param): TokenModel? {
@@ -31,31 +31,31 @@ class UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository 
     }
 
     override suspend fun getUserInfo(param: String): UserInfoModel {
-        return RetrofitInstance.retrofit.getUserInfo(param).body()!!
+        return RetrofitInstance.retrofit.getUserInfo("Bearer $param").body()!!
     }
 
     override suspend fun getUserImage(param: GetUserImageUseCase.Param): Bitmap? {
-        return BitmapFactory.decodeStream(RetrofitInstance.retrofit.getImage(param.token, param.imageId).body()!!.byteStream())
+        return BitmapFactory.decodeStream(RetrofitInstance.retrofit.getImage("Bearer ${param.token}", param.imageId).body()!!.byteStream())
     }
 
     override suspend fun getTasks(param: String): List<TaskModelGet> {
-        return RetrofitInstance.retrofit.getTodos(param).body()!!
+        return RetrofitInstance.retrofit.getTodos("Bearer $param").body()!!
     }
 
     override suspend fun addTask(param: AddTaskUseCase.Param): Unit? {
-        return RetrofitInstance.retrofit.addTask(param.token, param.taskInfo).body()
+        return RetrofitInstance.retrofit.addTask("Bearer $param", param.taskInfo).body()
     }
 
     override suspend fun deleteTask(param: DeleteTaskUseCase.Param): Unit? {
-        return RetrofitInstance.retrofit.deleteTask(param.token, param.taskId).body()
+        return RetrofitInstance.retrofit.deleteTask("Bearer ${param.token}", param.taskId).body()
     }
 
     override suspend fun putCheckBox(param: DeleteTaskUseCase.Param): Unit? {
-        return RetrofitInstance.retrofit.putCheckbox(param.token, param.taskId).body()
+        return RetrofitInstance.retrofit.putCheckbox("Bearer ${param.token}", param.taskId).body()
     }
 
     override suspend fun putUserImage(param: PutUserImageUseCase.Param): Unit? {
-        return RetrofitInstance.retrofit.postImage(param.token, param.uploadedFile).body()
+        return RetrofitInstance.retrofit.postImage("Bearer ${param.token}", param.uploadedFile).body()
     }
 
     override fun getRoundedBitmap(param: Bitmap): Bitmap? {

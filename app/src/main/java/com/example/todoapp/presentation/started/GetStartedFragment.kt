@@ -30,8 +30,6 @@ class GetStartedFragment : Fragment() {
         val vm = GetStartedFragmentViewModel(getTokenUseCase)
         val navigation = this.findNavController()
 
-        vm.getToken()
-
         vm.token.observe(viewLifecycleOwner) {
             if (it != null) {
                 navigation.navigate(R.id.switchFragment)

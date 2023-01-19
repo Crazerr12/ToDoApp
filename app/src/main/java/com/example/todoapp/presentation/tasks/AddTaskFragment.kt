@@ -29,8 +29,6 @@ class AddTaskFragment : Fragment() {
         val addTaskUseCase = AddTaskUseCase(userRepository)
         val vm = AddTaskFragmentViewModel(getTokenUseCase, addTaskUseCase)
 
-        vm.getToken()
-
         val navigation = this.findNavController()
 
         binding.buttonAddTask.setOnClickListener{

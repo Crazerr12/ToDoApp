@@ -18,7 +18,7 @@ import java.io.File
 
 class ProfileFragmentViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getTokenUseCase: GetTokenUseCase,
+    getTokenUseCase: GetTokenUseCase,
     private val getUserImageUseCase: GetUserImageUseCase,
     private val getRoundedBitmapUseCase: GetRoundedBitmapUseCase,
     private val exitFromAccountUseCase: ExitFromAccountUseCase,
@@ -27,48 +27,31 @@ class ProfileFragmentViewModel(
 
     private var _userInfo = MutableLiveData<UserInfoModel>()
     val userInfo: LiveData<UserInfoModel> = _userInfo
-    private var _token: MutableLiveData<String?> = MutableLiveData<String?>()
-    /* TODO
-    *   private var _token = getTokenUseCase.execute()
-    *   токен лучше хранить в обычной переменной, и как VM создается получать его
-    */
-    val token: LiveData<String?> = _token
+    private val token = getTokenUseCase.execute()
     private var _image: MutableLiveData<Bitmap> = MutableLiveData<Bitmap>()
     val image: LiveData<Bitmap> = _image
 
-    fun getToken() {
-        _token.value = getTokenUseCase.execute()
-    }
-
     fun getUserInfo() {
         viewModelScope.launch {
-            val token = "Bearer ${_token.value}"
-            _userInfo.value = getUserInfoUseCase.execute(token)
+            _userInfo.value = getUserInfoUseCase.execute(token!!)
         }
     }
 
     fun getImage() {
         viewModelScope.launch {
             val param = GetUserImageUseCase.Param(
-                "Bearer ${_token.value}",
-                _userInfo.value!!.imageId //Здесь value = null, возможно из-за viewModelScope
-            )                                     //в функции getUserInfo
-            val image = getUserImageUseCase.execute(param)
-            _image.value = getRoundedBitmapUseCase.execute(
-                Bitmap.createScaledBitmap(
-                    image!!,
-                    150,
-                    150,
-                    false
-                )
+                token!!,
+                _userInfo.value!!.imageId
             )
+            val image = getUserImageUseCase.execute(param)
+            _image.value = getRoundedBitmapUseCase.execute(image!!)
         }
     }
 
-    fun setImage(context: Context, imageUri: Uri?) {
+    fun sendImage(context: Context, imageUri: Uri?) {
         viewModelScope.launch {
             val param = PutUserImageUseCase.Param(
-                token = "Bearer $token",
+                token = token!!,
                 uploadedFile = uriToPart(context, imageUri)
             )
             putUserImage.execute(param)

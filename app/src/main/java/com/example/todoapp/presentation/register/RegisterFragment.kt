@@ -10,10 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
 import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
-import com.example.todoapp.presentation.common.Validator
 import com.example.todoapp.databinding.FragmentRegisterBinding
 import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
 import com.example.todoapp.domain.usecases.SaveTokenUseCase
+import com.example.todoapp.presentation.extensions.checkPassword
+import com.example.todoapp.presentation.extensions.emailValid
+import com.example.todoapp.presentation.extensions.nameValid
 
 class RegisterFragment : Fragment() {
 
@@ -33,23 +35,18 @@ class RegisterFragment : Fragment() {
         val userRepository = UserRepositoryImpl(userStorage)
         val registerByEmailUseCase = RegisterByEmailUseCase(userRepository)
         val saveTokenUseCase = SaveTokenUseCase(userRepository)
-        var vm = RegisterFragmentViewModel(registerByEmailUseCase, saveTokenUseCase)
+        val vm = RegisterFragmentViewModel(registerByEmailUseCase, saveTokenUseCase)
         val navigation = this.findNavController()
-        val validator = Validator()
 
         binding.buttonRegister.setOnClickListener {
 
-            binding.inputLayoutFullName.error =
-                validator.nameValid(binding.editTextFullName.text)
-            binding.inputLayoutEmail.error =
-                validator.emailValid(binding.editTextEmail.text)
-            binding.inputLayoutEnterPassword.error =
-                validator.checkPassword(
+            binding.inputLayoutFullName.error = nameValid(binding.editTextFullName.text)
+            binding.inputLayoutEmail.error = emailValid(binding.editTextEmail.text)
+            binding.inputLayoutEnterPassword.error = checkPassword(
                     binding.editTextEnterPassword.text,
                     binding.editTextConfirmPassword.text
                 )
-            binding.inputLayoutConfirmPassword.error =
-                validator.checkPassword(
+            binding.inputLayoutConfirmPassword.error = checkPassword(
                     binding.editTextConfirmPassword.text,
                     binding.editTextEnterPassword.text
                 )

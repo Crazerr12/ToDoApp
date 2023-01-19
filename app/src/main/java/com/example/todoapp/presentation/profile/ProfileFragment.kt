@@ -2,7 +2,6 @@ package com.example.todoapp.presentation.profile
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
@@ -52,18 +50,36 @@ class ProfileFragment : Fragment() {
             putUserImageUseCase
         )
 
-        vm.getToken()
         vm.getUserInfo()
         vm.userInfo.observe(viewLifecycleOwner) {
-            if (it != null){
+            if (it != null) {
                 binding.collapsingToolbar.title = "Welcome ${it.email}"
 // TODO после того как пришла информация о пользователе, делаем запрос на получение картинки
                 vm.getImage()
             }
         }
         vm.image.observe(viewLifecycleOwner) {
-            if(it != null){
+            if (it != null) {
                 binding.imageUserPhoto.setImageBitmap(it)
+            }
+        }
+
+        val getContent =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
+                binding.imageUserPhoto.setImageURI(null)
+
+                binding.imageUserPhoto.setImageURI(imageUri)
+                vm.sendImage(requireContext(), imageUri)
+            }
+
+        val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                getContent.launch("image/\\*")
+            } else {
+                Toast.makeText(requireContext(), "you don't have permission", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -73,9 +89,9 @@ class ProfileFragment : Fragment() {
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                getContent(vm)
+                getContent.launch("image/\\*")
             } else {
-                requestPermissionLauncher(vm)
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
 
@@ -88,26 +104,5 @@ class ProfileFragment : Fragment() {
             }
             true
         }
-    }
-
-    private fun requestPermissionLauncher(vm: ProfileFragmentViewModel){
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted ->
-            if (isGranted) {
-                getContent(vm)
-            } else {
-                Toast.makeText(requireContext(), "you don't have permission", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-    }
-
-    private fun getContent(vm: ProfileFragmentViewModel){
-        registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
-            binding.imageUserPhoto.setImageURI(null)
-            binding.imageUserPhoto.setImageURI(imageUri)
-            vm.setImage(requireContext(), imageUri)
-        }.launch("image/\\*")
     }
 }

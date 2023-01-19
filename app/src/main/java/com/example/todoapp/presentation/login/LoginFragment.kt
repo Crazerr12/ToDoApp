@@ -13,7 +13,8 @@ import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.databinding.FragmentLoginBinding
 import com.example.todoapp.domain.usecases.SaveTokenUseCase
 import com.example.todoapp.domain.usecases.LoginByEmailUseCase
-import com.example.todoapp.presentation.common.Validator
+import com.example.todoapp.presentation.extensions.emailValid
+import com.example.todoapp.presentation.extensions.passwordValid
 
 class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
@@ -29,15 +30,13 @@ class LoginFragment : Fragment() {
         val sendLoginUseCase = LoginByEmailUseCase(userRepository)
         val saveTokenUseCase = SaveTokenUseCase(userRepository)
         val vm = LoginFragmentViewModel(sendLoginUseCase, saveTokenUseCase)
-        val validator = Validator()
         val navigation = this.findNavController()
 
         binding.buttonSignIn.setOnClickListener {
 
-            binding.inputLayoutEmail.error =
-                validator.emailValid(binding.editTextEmail.text)
+            binding.inputLayoutEmail.error = emailValid(binding.editTextEmail.text)
             binding.inputLayoutConfirmPassword.error =
-                validator.passwordValid(binding.editTextConfirmPassword.text)
+                passwordValid(binding.editTextConfirmPassword.text)
 
             if (binding.inputLayoutEmail.error == null && binding.inputLayoutConfirmPassword.error == null) {
 

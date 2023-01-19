@@ -1,5 +1,6 @@
 package com.example.todoapp.data.api
 
+import com.example.todoapp.domain.usecases.AddTaskUseCase
 import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
 import com.example.todoapp.domain.usecases.LoginByEmailUseCase
 import com.example.todoapp.presentation.models.*
