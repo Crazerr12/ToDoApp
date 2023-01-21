@@ -15,21 +15,17 @@ import com.example.todoapp.domain.usecases.SaveTokenUseCase
 import com.example.todoapp.domain.usecases.LoginByEmailUseCase
 import com.example.todoapp.presentation.extensions.emailValid
 import com.example.todoapp.presentation.extensions.passwordValid
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
-
+    private val vm by viewModel<LoginFragmentViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        val userStorage = SharedPrefUserStorage(requireContext())
-        val userRepository = UserRepositoryImpl(userStorage)
-        val sendLoginUseCase = LoginByEmailUseCase(userRepository)
-        val saveTokenUseCase = SaveTokenUseCase(userRepository)
-        val vm = LoginFragmentViewModel(sendLoginUseCase, saveTokenUseCase)
         val navigation = this.findNavController()
 
         binding.buttonSignIn.setOnClickListener {

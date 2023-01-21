@@ -18,9 +18,11 @@ import com.example.todoapp.domain.usecases.GetTasksUseCase
 import com.example.todoapp.domain.usecases.GetTokenUseCase
 import com.example.todoapp.domain.usecases.PutCheckBoxUseCase
 import com.example.todoapp.presentation.tasks.TasksAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CategoryFragment(private val position: Int, private val category: List<String>) : Fragment() {
 
+    private val vm by viewModel<CategoryFragmentViewModel>()
     lateinit var binding: FragmentCategoryBinding
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -30,17 +32,6 @@ class CategoryFragment(private val position: Int, private val category: List<Str
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
-        val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
-        val getTokenUseCase = GetTokenUseCase(userRepository)
-        val getTasksUseCase = GetTasksUseCase(userRepository)
-        val deleteTaskUseCase = DeleteTaskUseCase(userRepository)
-        val putCheckBoxUseCase = PutCheckBoxUseCase(userRepository)
-        val vm = CategoryFragmentViewModel(
-            getTokenUseCase,
-            getTasksUseCase,
-            deleteTaskUseCase,
-            putCheckBoxUseCase
-        )
 
         val navigation = this.findNavController()
 

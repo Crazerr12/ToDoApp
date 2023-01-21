@@ -17,10 +17,12 @@ import com.example.todoapp.databinding.FragmentProfileBinding
 import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.domain.usecases.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ProfileFragment : Fragment() {
 
+    private val vm by viewModel<ProfileFragmentViewModel>()
     lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
@@ -34,22 +36,6 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
-        val getUserInfoUseCase = GetUserInfoUseCase(userRepository)
-        val getTokenUseCase = GetTokenUseCase(userRepository)
-        val getUserImageUseCase = GetUserImageUseCase(userRepository)
-        val getRoundedBitmapUseCase = GetRoundedBitmapUseCase(userRepository)
-        val exitFromAccountUseCase = ExitFromAccountUseCase(userRepository)
-        val putUserImageUseCase = PutUserImageUseCase(userRepository)
-        val vm = ProfileFragmentViewModel(
-            getUserInfoUseCase,
-            getTokenUseCase,
-            getUserImageUseCase,
-            getRoundedBitmapUseCase,
-            exitFromAccountUseCase,
-            putUserImageUseCase
-        )
-
         vm.getUserInfo()
         vm.userInfo.observe(viewLifecycleOwner) {
             if (it != null) {
@@ -68,8 +54,10 @@ class ProfileFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
                 binding.imageUserPhoto.setImageURI(null)
 
-                binding.imageUserPhoto.setImageURI(imageUri)
-                vm.sendImage(requireContext(), imageUri)
+                if (imageUri != null) {
+                    binding.imageUserPhoto.setImageURI(imageUri)
+                    vm.sendImage(requireContext(), imageUri)
+                }
             }
 
         val requestPermissionLauncher = registerForActivityResult(

@@ -22,7 +22,7 @@ class ProfileFragmentViewModel(
     private val getUserImageUseCase: GetUserImageUseCase,
     private val getRoundedBitmapUseCase: GetRoundedBitmapUseCase,
     private val exitFromAccountUseCase: ExitFromAccountUseCase,
-    private val putUserImage: PutUserImageUseCase
+    private val putUserImageUseCase: PutUserImageUseCase
 ) : ViewModel() {
 
     private var _userInfo = MutableLiveData<UserInfoModel>()
@@ -54,7 +54,7 @@ class ProfileFragmentViewModel(
                 token = token!!,
                 uploadedFile = uriToPart(context, imageUri)
             )
-            putUserImage.execute(param)
+            putUserImageUseCase.execute(param)
         }
     }
 

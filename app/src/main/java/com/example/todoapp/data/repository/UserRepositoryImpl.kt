@@ -43,7 +43,7 @@ class  UserRepositoryImpl(private val userStorage: UserStorage) : UserRepository
     }
 
     override suspend fun addTask(param: AddTaskUseCase.Param): Unit? {
-        return RetrofitInstance.retrofit.addTask("Bearer $param", param.taskInfo).body()
+        return RetrofitInstance.retrofit.addTask("Bearer ${param.token}", param.taskInfo).body()
     }
 
     override suspend fun deleteTask(param: DeleteTaskUseCase.Param): Unit? {

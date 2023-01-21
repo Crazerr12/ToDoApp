@@ -1,12 +1,10 @@
 package com.example.todoapp.data.api
 
-import com.example.todoapp.domain.usecases.AddTaskUseCase
 import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
 import com.example.todoapp.domain.usecases.LoginByEmailUseCase
 import com.example.todoapp.presentation.models.*
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 

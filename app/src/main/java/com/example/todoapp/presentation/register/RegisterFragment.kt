@@ -16,9 +16,11 @@ import com.example.todoapp.domain.usecases.SaveTokenUseCase
 import com.example.todoapp.presentation.extensions.checkPassword
 import com.example.todoapp.presentation.extensions.emailValid
 import com.example.todoapp.presentation.extensions.nameValid
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
 
+    private val vm by viewModel<RegisterFragmentViewModel>()
     lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
@@ -30,12 +32,6 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val userStorage = SharedPrefUserStorage(requireContext())
-        val userRepository = UserRepositoryImpl(userStorage)
-        val registerByEmailUseCase = RegisterByEmailUseCase(userRepository)
-        val saveTokenUseCase = SaveTokenUseCase(userRepository)
-        val vm = RegisterFragmentViewModel(registerByEmailUseCase, saveTokenUseCase)
         val navigation = this.findNavController()
 
         binding.buttonRegister.setOnClickListener {

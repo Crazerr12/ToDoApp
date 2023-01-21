@@ -11,20 +11,19 @@ import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.domain.usecases.GetTasksUseCase
 import com.example.todoapp.domain.usecases.GetTokenUseCase
 import com.google.android.material.tabs.TabLayoutMediator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TasksFragment : Fragment() {
 
+    private val vm by viewModel<TasksFragmentViewModel>()
     lateinit var binding: FragmentTasksBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTasksBinding.inflate(inflater, container, false)
-        val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
-        val getTokenUseCase = GetTokenUseCase(userRepository)
-        val getTasksUseCase = GetTasksUseCase(userRepository)
-        val vm = TasksFragmentViewModel(getTokenUseCase, getTasksUseCase)
 
         vm.getListOfCategoryTasks()
         vm.categoryTasks.observe(viewLifecycleOwner){

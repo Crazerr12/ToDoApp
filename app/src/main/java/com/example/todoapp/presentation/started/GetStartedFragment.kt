@@ -12,10 +12,11 @@ import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.databinding.FragmentGetStartedBinding
 import com.example.todoapp.domain.usecases.GetTokenUseCase
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GetStartedFragment : Fragment() {
 
-    //Context существует, когда уже создана view
+    private val vm by viewModel<GetStartedFragmentViewModel>()
     lateinit var binding: FragmentGetStartedBinding
 
     override fun onCreateView(
@@ -24,10 +25,6 @@ class GetStartedFragment : Fragment() {
     ): View {
 
         binding = FragmentGetStartedBinding.inflate(inflater, container, false)
-        val userStorage = SharedPrefUserStorage(requireContext())
-        val userRepository = UserRepositoryImpl(userStorage)
-        val getTokenUseCase = GetTokenUseCase(userRepository)
-        val vm = GetStartedFragmentViewModel(getTokenUseCase)
         val navigation = this.findNavController()
 
         vm.token.observe(viewLifecycleOwner) {

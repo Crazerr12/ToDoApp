@@ -13,10 +13,13 @@ import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.domain.usecases.AddTaskUseCase
 import com.example.todoapp.domain.usecases.GetTokenUseCase
 import com.example.todoapp.presentation.models.TaskModelPost
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddTaskFragment : Fragment() {
 
     lateinit var binding: FragmentAddTaskBinding
+    private val vm by viewModel<AddTaskFragmentViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,11 +27,6 @@ class AddTaskFragment : Fragment() {
     ): View {
 
         binding = FragmentAddTaskBinding.inflate(inflater, container, false)
-        val userRepository = UserRepositoryImpl(SharedPrefUserStorage(requireContext()))
-        val getTokenUseCase = GetTokenUseCase(userRepository)
-        val addTaskUseCase = AddTaskUseCase(userRepository)
-        val vm = AddTaskFragmentViewModel(getTokenUseCase, addTaskUseCase)
-
         val navigation = this.findNavController()
 
         binding.buttonAddTask.setOnClickListener{
