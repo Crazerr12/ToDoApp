@@ -12,10 +12,12 @@ import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.databinding.FragmentGetStartedBinding
 import com.example.todoapp.domain.usecases.GetTokenUseCase
+import com.example.todoapp.presentation.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class GetStartedFragment : Fragment() {
+class GetStartedFragment : BaseFragment() {
 
+    override val showBottomNavigationView = false
     private val vm by viewModel<GetStartedFragmentViewModel>()
     lateinit var binding: FragmentGetStartedBinding
 
@@ -25,18 +27,17 @@ class GetStartedFragment : Fragment() {
     ): View {
 
         binding = FragmentGetStartedBinding.inflate(inflater, container, false)
-        val navigation = this.findNavController()
 
         vm.token.observe(viewLifecycleOwner) {
             if (it != null) {
-                navigation.navigate(R.id.switchFragment)
+                findNavController().navigate(R.id.profile_graph)
                 Toast.makeText(requireContext(), "Токен получен", Toast.LENGTH_SHORT).show()
             } else
                 Toast.makeText(requireContext(), "Токен не получен", Toast.LENGTH_SHORT).show()
         }
 
         binding.buttonGetStarted.setOnClickListener {
-            navigation.navigate(R.id.action_getStartedFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_getStartedFragment_to_loginFragment)
         }
 
         return binding.root

@@ -17,11 +17,13 @@ import com.example.todoapp.domain.usecases.DeleteTaskUseCase
 import com.example.todoapp.domain.usecases.GetTasksUseCase
 import com.example.todoapp.domain.usecases.GetTokenUseCase
 import com.example.todoapp.domain.usecases.PutCheckBoxUseCase
+import com.example.todoapp.presentation.base.BaseFragment
 import com.example.todoapp.presentation.tasks.TasksAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CategoryFragment(private val position: Int, private val category: List<String>) : Fragment() {
+class CategoryFragment(private val position: Int, private val category: List<String>) : BaseFragment() {
 
+    override val showBottomNavigationView = true
     private val vm by viewModel<CategoryFragmentViewModel>()
     lateinit var binding: FragmentCategoryBinding
 
@@ -32,8 +34,6 @@ class CategoryFragment(private val position: Int, private val category: List<Str
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
-
-        val navigation = this.findNavController()
 
         val adapter = TasksAdapter { idDelete, idMark ->
             idDelete.let {
@@ -63,7 +63,7 @@ class CategoryFragment(private val position: Int, private val category: List<Str
         vm.getListOfTasks(position, category, adapter)
 
         binding.buttonAdd.setOnClickListener {
-            navigation.navigate(R.id.action_switchFragment_to_addTaskFragment)
+            findNavController().navigate(R.id.action_categoryFragment_to_addTaskFragment)
         }
 
         return binding.root

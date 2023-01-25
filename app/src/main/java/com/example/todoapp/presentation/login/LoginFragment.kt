@@ -13,11 +13,14 @@ import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.databinding.FragmentLoginBinding
 import com.example.todoapp.domain.usecases.SaveTokenUseCase
 import com.example.todoapp.domain.usecases.LoginByEmailUseCase
+import com.example.todoapp.presentation.base.BaseFragment
 import com.example.todoapp.presentation.extensions.emailValid
 import com.example.todoapp.presentation.extensions.passwordValid
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
+
+    override val showBottomNavigationView = false
     lateinit var binding: FragmentLoginBinding
     private val vm by viewModel<LoginFragmentViewModel>()
 
@@ -26,7 +29,6 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-        val navigation = this.findNavController()
 
         binding.buttonSignIn.setOnClickListener {
 
@@ -47,14 +49,14 @@ class LoginFragment : Fragment() {
 
         vm.token.observe(viewLifecycleOwner) {
             if (it != null) {
-                navigation.navigate(R.id.action_loginFragment_to_switchFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_profile_graph)
                 Toast.makeText(requireContext(), "Токен получен", Toast.LENGTH_SHORT).show()
             } else
                 Toast.makeText(requireContext(), "Токен не получен", Toast.LENGTH_SHORT).show()
         }
 
         binding.textSignUp.setOnClickListener {
-            navigation.navigate(R.id.action_loginFragment_to_registerFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
         return (binding.root)

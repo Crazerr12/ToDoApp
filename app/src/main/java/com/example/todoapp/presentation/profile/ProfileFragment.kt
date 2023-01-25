@@ -17,11 +17,13 @@ import com.example.todoapp.databinding.FragmentProfileBinding
 import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.domain.usecases.*
+import com.example.todoapp.presentation.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment() {
 
+    override val showBottomNavigationView = true
     private val vm by viewModel<ProfileFragmentViewModel>()
     lateinit var binding: FragmentProfileBinding
 
@@ -87,7 +89,7 @@ class ProfileFragment : Fragment() {
             when (it.itemId) {
                 R.id.exit -> {
                     vm.exitFromAccount()
-                    this.findNavController().navigate(R.id.loginFragment)
+                    findNavController().navigate(R.id.loginFragment)
                 }
             }
             true

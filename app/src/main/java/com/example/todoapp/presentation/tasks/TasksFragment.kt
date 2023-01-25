@@ -10,11 +10,13 @@ import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.domain.usecases.GetTasksUseCase
 import com.example.todoapp.domain.usecases.GetTokenUseCase
+import com.example.todoapp.presentation.base.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TasksFragment : Fragment() {
+class TasksFragment : BaseFragment() {
 
+    override val showBottomNavigationView = true
     private val vm by viewModel<TasksFragmentViewModel>()
     lateinit var binding: FragmentTasksBinding
 

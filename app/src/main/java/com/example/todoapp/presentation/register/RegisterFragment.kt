@@ -13,13 +13,15 @@ import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.databinding.FragmentRegisterBinding
 import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
 import com.example.todoapp.domain.usecases.SaveTokenUseCase
+import com.example.todoapp.presentation.base.BaseFragment
 import com.example.todoapp.presentation.extensions.checkPassword
 import com.example.todoapp.presentation.extensions.emailValid
 import com.example.todoapp.presentation.extensions.nameValid
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment() {
 
+    override val showBottomNavigationView = false
     private val vm by viewModel<RegisterFragmentViewModel>()
     lateinit var binding: FragmentRegisterBinding
 
@@ -32,7 +34,6 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val navigation = this.findNavController()
 
         binding.buttonRegister.setOnClickListener {
 
@@ -61,14 +62,14 @@ class RegisterFragment : Fragment() {
 
         vm.token.observe(viewLifecycleOwner) {
             if (it != null) {
-                navigation.navigate(R.id.action_loginFragment_to_switchFragment)
+                findNavController().navigate(R.id.action_registerFragment_to_profile_graph)
                 Toast.makeText(requireContext(), "Токен получен", Toast.LENGTH_SHORT).show()
             } else
                 Toast.makeText(requireContext(), "Токен не получен", Toast.LENGTH_SHORT).show()
         }
 
         binding.textSignIn.setOnClickListener {
-            navigation.popBackStack()
+            findNavController().popBackStack()
         }
     }
 }

@@ -12,11 +12,13 @@ import com.example.todoapp.data.repository.UserRepositoryImpl
 import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.domain.usecases.AddTaskUseCase
 import com.example.todoapp.domain.usecases.GetTokenUseCase
+import com.example.todoapp.presentation.base.BaseFragment
 import com.example.todoapp.presentation.models.TaskModelPost
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AddTaskFragment : Fragment() {
+class AddTaskFragment : BaseFragment() {
 
+    override val showBottomNavigationView = false
     lateinit var binding: FragmentAddTaskBinding
     private val vm by viewModel<AddTaskFragmentViewModel>()
 
@@ -27,7 +29,6 @@ class AddTaskFragment : Fragment() {
     ): View {
 
         binding = FragmentAddTaskBinding.inflate(inflater, container, false)
-        val navigation = this.findNavController()
 
         binding.buttonAddTask.setOnClickListener{
 
@@ -46,7 +47,7 @@ class AddTaskFragment : Fragment() {
             vm.addTask(taskInfo)
             Toast.makeText(requireContext(), "Successfully", Toast.LENGTH_SHORT)
                 .show()
-            navigation.popBackStack()
+            findNavController().popBackStack()
         }
         return binding.root
     }
