@@ -1,60 +1,49 @@
 package com.example.todoapp.presentation.register
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.helper.widget.MotionEffect.TAG
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
-import com.example.todoapp.presentation.common.Validator
+import com.example.todoapp.data.repository.UserRepositoryImpl
+import com.example.todoapp.data.storage.SharedPrefUserStorage
 import com.example.todoapp.databinding.FragmentRegisterBinding
-import com.example.todoapp.presentation.api.RetrofitInstance
-import com.example.todoapp.presentation.models.RegistrationModel
-import com.example.todoapp.presentation.models.TokenModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.todoapp.domain.usecases.RegisterByEmailUseCase
+import com.example.todoapp.domain.usecases.SaveTokenUseCase
+import com.example.todoapp.presentation.base.BaseFragment
+import com.example.todoapp.presentation.extensions.checkPassword
+import com.example.todoapp.presentation.extensions.emailValid
+import com.example.todoapp.presentation.extensions.nameValid
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment() {
 
-    lateinit var sharedPreferences: SharedPreferences
+    override val showBottomNavigationView = false
+    private val vm by viewModel<RegisterFragmentViewModel>()
     lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegisterBinding.inflate(inflater,container,false)
-        sharedPreferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
+        binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return (binding.root)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val navigation = this.findNavController()
-        val validator = Validator()
-
         binding.buttonRegister.setOnClickListener {
 
-            val email = binding.editTextEmail.text.toString()
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-
-            binding.inputLayoutFullName.error =
-                validator.nameValid(binding.editTextFullName.text)
-            binding.inputLayoutEmail.error =
-                validator.emailValid(binding.editTextEmail.text)
-            binding.inputLayoutEnterPassword.error =
-                validator.checkPassword(
+            binding.inputLayoutFullName.error = nameValid(binding.editTextFullName.text)
+            binding.inputLayoutEmail.error = emailValid(binding.editTextEmail.text)
+            binding.inputLayoutEnterPassword.error = checkPassword(
                     binding.editTextEnterPassword.text,
                     binding.editTextConfirmPassword.text
                 )
-            binding.inputLayoutConfirmPassword.error =
-                validator.checkPassword(
+            binding.inputLayoutConfirmPassword.error = checkPassword(
                     binding.editTextConfirmPassword.text,
                     binding.editTextEnterPassword.text
                 )
@@ -62,38 +51,25 @@ class RegisterFragment : Fragment() {
             if (binding.inputLayoutFullName.error == null && binding.inputLayoutEmail.error == null &&
                 binding.inputLayoutEnterPassword.error == null && binding.inputLayoutConfirmPassword.error == null
             ) {
-                val userRegistration = RegistrationModel(
+                val userRegistration = RegisterByEmailUseCase.Param(
                     name = binding.editTextFullName.text.toString(),
                     email = binding.editTextEmail.text.toString(),
                     password = binding.editTextEnterPassword.text.toString()
                 )
-                RetrofitInstance.retrofit.registration(userRegistration).enqueue(object : Callback<TokenModel>{
-                    override fun onResponse(
-                        call: Call<TokenModel>,
-                        response: Response<TokenModel>
-                    ) {
-                        if (response.isSuccessful){
-                            val token = response.body()?.token ?: "No token"
-                            editor.putString("TOKEN", token)
-                            editor.apply()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<TokenModel>, t: Throwable) {
-                        Log.e(TAG, "onFailure: ${t.message}")
-                    }
-
-                })
-
-                editor.putString("EMAIL", email)
-                editor.putBoolean("REMEMBER", true)
-                editor.apply()
-                navigation.navigate(R.id.action_registerFragment_to_switchFragment)
+                vm.userRegister(userRegistration)
             }
         }
 
+        vm.token.observe(viewLifecycleOwner) {
+            if (it != null) {
+                findNavController().navigate(R.id.action_registerFragment_to_profile_graph)
+                Toast.makeText(requireContext(), "Токен получен", Toast.LENGTH_SHORT).show()
+            } else
+                Toast.makeText(requireContext(), "Токен не получен", Toast.LENGTH_SHORT).show()
+        }
+
         binding.textSignIn.setOnClickListener {
-            navigation.popBackStack()
+            findNavController().popBackStack()
         }
     }
 }

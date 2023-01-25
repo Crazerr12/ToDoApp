@@ -20,5 +20,4 @@
         android:backgroundTint="@color/yellow"
         app:maxImageSize="28dp"
         android:src="@drawable/ic_baseline_add_24" />
-
 </FrameLayout>

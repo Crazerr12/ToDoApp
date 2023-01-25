@@ -6,16 +6,17 @@
         <entry key="..\:/Development/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_get_started.xml" value="0.36666666666666664" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_login.xml" value="0.36102564102564105" />
-        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_add_task.xml" value="0.33" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_category.xml" value="0.25" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_get_started.xml" value="0.33" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_profile.xml" value="0.36102564102564105" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_profile_and_tasks_switch.xml" value="0.36666666666666664" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_register.xml" value="0.36102564102564105" />
-        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_switch.xml" value="0.36666666666666664" />
+        <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_switch.xml" value="0.1" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/fragment_tasks.xml" value="0.33" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/item_task.xml" value="0.33" />
         <entry key="..\:/Development/ToDoApp/app/src/main/res/layout/text.xml" value="0.36666666666666664" />

@@ -1,7 +1,7 @@
 package com.example.todoapp.presentation.models
 
 
-data class TaskModel(
+data class TaskModelGet(
     val id: String,
     val category: String,
     val title: String,

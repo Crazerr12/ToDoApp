@@ -1,30 +1,31 @@
 package com.example.todoapp.presentation.category
 
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentCategoryBinding
-import com.example.todoapp.presentation.api.RetrofitInstance
-import com.example.todoapp.presentation.models.TaskModel
+import com.example.todoapp.data.repository.UserRepositoryImpl
+import com.example.todoapp.data.storage.SharedPrefUserStorage
+import com.example.todoapp.domain.usecases.DeleteTaskUseCase
+import com.example.todoapp.domain.usecases.GetTasksUseCase
+import com.example.todoapp.domain.usecases.GetTokenUseCase
+import com.example.todoapp.domain.usecases.PutCheckBoxUseCase
+import com.example.todoapp.presentation.base.BaseFragment
 import com.example.todoapp.presentation.tasks.TasksAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.time.LocalDate
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
+class CategoryFragment(private val position: Int, private val category: List<String>) : BaseFragment() {
 
-class CategoryFragment(private val position: Int) : Fragment() {
-
+    override val showBottomNavigationView = true
+    private val vm by viewModel<CategoryFragmentViewModel>()
     lateinit var binding: FragmentCategoryBinding
-    lateinit var preferences: SharedPreferences
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -34,41 +35,37 @@ class CategoryFragment(private val position: Int) : Fragment() {
     ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
 
-        preferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
-        val token = preferences.getString("TOKEN", "")
-        val adapter = TasksAdapter()
+        val adapter = TasksAdapter { idDelete, idMark ->
+            idDelete.let {
+                vm.deleteTask(it.toString())
+                if (idMark == null)
+                    Toast.makeText(
+                        requireContext(),
+                        "task delete",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+            }
+            idMark.let {
+                vm.putCheckBox(it.toString())
+                if (idDelete == null)
+                    Toast.makeText(
+                        requireContext(),
+                        "task complete",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+            }
+        }
+
         binding.recyclerAdapter.adapter = adapter
 
-        RetrofitInstance.retrofit.getTodos("Bearer $token").enqueue(object :
-            Callback<List<TaskModel>> {
-            override fun onResponse(
-                call: Call<List<TaskModel>>,
-                response: Response<List<TaskModel>>
-            ) {
-                if (response.isSuccessful) {
-                    val tasks = response.body()
-                    adapter.submitList(tasks!!)
-                }
-
-            }
-
-            override fun onFailure(call: Call<List<TaskModel>>, t: Throwable) {
-                Log.e(TAG, "onFailure ${t.message}")
-            }
-        })
+        vm.getListOfTasks(position, category, adapter)
 
         binding.buttonAdd.setOnClickListener {
-            adapter.addItem(
-                TaskModel(
-                    id = "",
-                    category = "work",
-                    title = "fourth",
-                    description = "Have Lunch by 2pm",
-                    date = LocalDate.now().toEpochDay(),
-                    isCompleted = false
-                )
-            )
+            findNavController().navigate(R.id.action_categoryFragment_to_addTaskFragment)
         }
+
         return binding.root
     }
 }
